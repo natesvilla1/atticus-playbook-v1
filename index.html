@@ -1,0 +1,2451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atticus IP Playbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root{--gd:#0d3320;--gm:#1a5c36;--gb:#2d8a4e;--gl:#3ab66a;--gll:#6fd98a;--gp:#d4f5de;--gu:#f0fdf4;--gold:#f5a623;--t1:#0f1e16;--t2:#3d5446;--tm:#7a9986;--border:#c8e8d4;--wh:#fff;--tc:#1a6b5c;--tcb:#e8f7f4;--cc:#7a3200;--ccb:#fff3ea;--ec:#2a2680;--ecb:#eeeeff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--gu);color:var(--t1);min-height:100vh}
+.hdr{background:linear-gradient(135deg,var(--gd),var(--gm) 60%,var(--gb));position:sticky;top:0;z-index:100;box-shadow:0 4px 24px rgba(0,0,0,.2)}
+.hdr-in{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;max-width:1600px;margin:0 auto}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-ico{width:34px;height:34px;background:var(--gb);border-radius:8px;display:flex;align-items:center;justify-content:center;border:2px solid var(--gl)}
+.logo-txt{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:#fff;letter-spacing:-.3px}
+.logo-txt span{font-weight:300;opacity:.65}
+.hdr-badge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;font-size:11px;font-weight:600;color:var(--gll);letter-spacing:1.5px;text-transform:uppercase}
+.nav{display:flex;gap:3px}
+.ntab{padding:8px 17px;border-radius:8px;font-size:13px;font-weight:500;color:rgba(255,255,255,.65);cursor:pointer;border:none;background:transparent;font-family:'DM Sans',sans-serif;transition:all .2s}
+.ntab:hover{color:#fff;background:rgba(255,255,255,.08)}
+.ntab.active{color:#fff;background:rgba(255,255,255,.14)}
+.hero{background:linear-gradient(135deg,var(--gd),#1e2a24);padding:44px 28px 36px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40%;right:-5%;width:480px;height:480px;background:radial-gradient(circle,rgba(61,182,106,.11),transparent 70%);pointer-events:none}
+.hero-in{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;max-width:1600px;margin:0 auto}
+.hero-eye{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gl);margin-bottom:10px}
+.hero-h1{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:#fff;line-height:1.1;letter-spacing:-1px;margin-bottom:14px}
+.hero-h1 span{color:var(--gll)}
+.hero-p{font-size:14px;color:rgba(255,255,255,.55);line-height:1.7;max-width:460px}
+.stats{display:flex;gap:12px}
+.stat{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:16px 22px;text-align:center}
+.stat-n{font-family:'Syne',sans-serif;font-size:30px;font-weight:800;color:var(--gll);line-height:1}
+.stat-l{font-size:11px;color:rgba(255,255,255,.5);margin-top:4px;line-height:1.4}
+.fbar{background:#fff;border-bottom:1px solid var(--border);padding:14px 28px;position:sticky;top:62px;z-index:90;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.fbar-in{display:flex;gap:10px;align-items:center;flex-wrap:wrap;max-width:1600px;margin:0 auto}
+.flbl{font-size:11px;font-weight:700;color:var(--tm);letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+.fgrp{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.fbtn{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:#fff;color:var(--t2);font-family:'DM Sans',sans-serif;transition:all .2s}
+.fbtn:hover{border-color:var(--gb);color:var(--gb)}
+.fbtn.active{background:var(--gb);color:#fff;border-color:var(--gb)}
+.fbtn.t{border-color:#1a6b5c;color:#1a6b5c}.fbtn.t.active{background:#1a6b5c;color:#fff}
+.fbtn.c{border-color:#7a3200;color:#7a3200}.fbtn.c.active{background:#7a3200;color:#fff}
+.fbtn.e{border-color:#2a2680;color:#2a2680}.fbtn.e.active{background:#2a2680;color:#fff}
+.fdiv{width:1px;height:26px;background:var(--border);margin:0 2px}
+.srch{margin-left:auto;position:relative}
+.srch input{padding:7px 14px 7px 34px;border-radius:20px;border:1.5px solid var(--border);font-size:13px;font-family:'DM Sans',sans-serif;color:var(--t1);outline:none;width:200px;transition:all .2s;background:#fff}
+.srch input:focus{border-color:var(--gb);width:260px}
+.srch input::placeholder{color:var(--tm)}
+.srch .si{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--tm);pointer-events:none;font-size:13px}
+/* ===== PLAYBOOK BOARD REDESIGN ===== */
+.pb-search-hero{background:linear-gradient(135deg,var(--gd) 0%,#1a3528 100%);padding:32px 28px 28px;max-width:100%}
+.pb-search-wrap{max-width:860px;margin:0 auto 18px;position:relative;display:flex;align-items:center;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.18);border-radius:16px;transition:all .25s}
+.pb-search-wrap:focus-within{background:rgba(255,255,255,.13);border-color:var(--gl);box-shadow:0 0 0 4px rgba(61,182,106,.15)}
+.pb-search-icon{padding:0 16px;font-size:18px;opacity:.6;flex-shrink:0}
+.pb-search-input{flex:1;background:transparent;border:none;outline:none;font-size:17px;font-family:'DM Sans',sans-serif;color:#fff;padding:16px 0;font-weight:400;letter-spacing:-.2px}
+.pb-search-input::placeholder{color:rgba(255,255,255,.35)}
+.pb-search-clear{background:rgba(255,255,255,.12);border:none;border-radius:8px;width:32px;height:32px;margin-right:12px;cursor:pointer;color:rgba(255,255,255,.6);font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
+.pb-search-clear:hover{background:rgba(255,255,255,.2);color:#fff}
+.pb-search-hints{max-width:860px;margin:0 auto;display:flex;gap:8px;flex-wrap:wrap}
+.pb-hint{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.15);cursor:pointer;transition:all .2s;background:transparent;user-select:none}
+.pb-hint:hover{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.3)}
+.pb-hint.active-hint{background:var(--gb);color:#fff;border-color:var(--gb)}
+
+/* ===== MINDMAP OVERLAY ===== */
+.mindmap-overlay{background:#fff;border-bottom:2px solid var(--border);overflow:hidden;animation:mmSlideDown .35s cubic-bezier(.16,1,.3,1)}
+@keyframes mmSlideDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+.mindmap-wrap{max-width:1600px;margin:0 auto;padding:24px 28px}
+.mindmap-hdr{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.mindmap-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--t1)}
+.mindmap-subtitle{font-size:13px;color:var(--tm);flex:1}
+.mindmap-close{background:var(--gu);border:1.5px solid var(--border);border-radius:9px;padding:7px 16px;font-size:12px;font-weight:600;color:var(--t2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.mindmap-close:hover{border-color:var(--gb);color:var(--gb)}
+.mindmap-canvas-wrap{position:relative;width:100%;height:320px;overflow:hidden}
+.mindmap-svg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+.mindmap-nodes{position:absolute;top:0;left:0;width:100%;height:100%}
+/* Mindmap node styles */
+.mm-node{position:absolute;transform:translate(-50%,-50%);cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1)}
+.mm-node:hover{transform:translate(-50%,-50%) scale(1.08)}
+.mm-node-inner{border-radius:12px;padding:8px 14px;font-size:11px;font-weight:700;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.1);border:2px solid transparent;transition:all .25s;text-align:center;max-width:160px;white-space:normal;line-height:1.35}
+.mm-node.center .mm-node-inner{background:linear-gradient(135deg,var(--gd),var(--gm));color:#fff;font-size:13px;padding:12px 20px;border-radius:14px;box-shadow:0 6px 24px rgba(13,51,32,.25)}
+.mm-node.driver-TIME .mm-node-inner{background:var(--tcb);color:var(--tc);border-color:var(--tc)}
+.mm-node.driver-COST .mm-node-inner{background:var(--ccb);color:var(--cc);border-color:var(--cc)}
+.mm-node.driver-EXPERIENCE .mm-node-inner{background:var(--ecb);color:var(--ec);border-color:var(--ec)}
+.mm-node.stage-node .mm-node-inner{background:#f0f7ff;color:#1a4a7a;border-color:#c8ddf0;font-size:10px}
+.mm-node.mat-node .mm-node-inner{background:#f7faf8;color:var(--t2);border-color:var(--border);font-size:10px}
+.mm-node.pain-node .mm-node-inner{background:#fff;color:var(--t1);border-color:var(--border);font-size:10px;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.mm-node.pain-node:hover .mm-node-inner{border-color:var(--gb);background:var(--gu)}
+.mm-node.ip-node .mm-node-inner{background:var(--gp);color:var(--gd);border-color:var(--gb);font-size:10px}
+.mm-node.tier-node .mm-node-inner{background:linear-gradient(135deg,var(--gb),var(--gm));color:#fff;font-size:10px;padding:6px 12px}
+/* SVG connector lines */
+.mm-line{stroke:var(--border);stroke-width:1.5;fill:none;opacity:.7}
+.mm-line.TIME{stroke:#1a6b5c;opacity:.5}
+.mm-line.COST{stroke:#7a3200;opacity:.5}
+.mm-line.EXPERIENCE{stroke:#2a2680;opacity:.5}
+.mm-line.active{stroke:var(--gb);stroke-width:2;opacity:1}
+
+/* ===== BOARD LAYOUT ===== */
+main{max-width:1600px;margin:0 auto;padding:0 28px 60px}
+.board-wrap{margin-top:0;overflow-x:auto}
+.board-col-headers{display:grid;grid-template-columns:110px 110px 130px 1fr 160px 160px 1fr;gap:0;border-bottom:2px solid var(--border);background:#fff;position:sticky;top:62px;z-index:80}
+.bch{padding:12px 14px;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--tm);border-right:1px solid var(--border);display:flex;align-items:center;gap:6px;white-space:nowrap}
+.bch:last-child{border-right:none}
+.bch-driver{color:var(--gb)}
+.board-body{display:flex;flex-direction:column;background:#fff}
+
+/* Board row */
+.board-row{display:grid;grid-template-columns:110px 110px 130px 1fr 160px 160px 1fr;gap:0;border-bottom:1px solid var(--border);cursor:pointer;transition:all .18s;position:relative}
+.board-row:hover{background:var(--gu)}
+.board-row.active-row{background:var(--gp);border-left:3px solid var(--gb)}
+.board-row.faded{opacity:.28}
+.board-cell{padding:12px 14px;border-right:1px solid var(--border);display:flex;align-items:center;min-height:58px;font-size:12px;color:var(--t2)}
+.board-cell:last-child{border-right:none}
+
+/* Driver cell */
+.bc-driver{font-family:'Syne',sans-serif;font-size:11px;font-weight:800}
+.bc-driver.TIME{color:var(--tc)}
+.bc-driver.COST{color:var(--cc)}
+.bc-driver.EXPERIENCE{color:var(--ec)}
+/* Driver accent bar on left */
+.board-row.dr-TIME{border-left:3px solid var(--tc)}
+.board-row.dr-COST{border-left:3px solid var(--cc)}
+.board-row.dr-EXPERIENCE{border-left:3px solid var(--ec)}
+.board-row.active-row{border-left:3px solid var(--gb) !important}
+
+/* Maturity cell */
+.bc-mat{border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;display:inline-flex;align-items:center;gap:4px}
+.bc-mat.Emerging{background:#fff5ed;color:#7a3200}
+.bc-mat.Developing{background:#fffbf0;color:#7a5000}
+.bc-mat.Mature{background:#f0faf4;color:#1a5c36}
+
+/* Stage cell */
+.bc-stage{background:#f0f7ff;color:#1a4a7a;border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;display:inline-flex}
+
+/* Pain cell */
+.bc-pain{font-size:12.5px;font-weight:600;color:var(--t1);line-height:1.4}
+
+/* IP cell */
+.bc-ip{background:var(--gp);color:var(--gd);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;display:inline-flex}
+
+/* Tier cell */
+.bc-tier-r{background:var(--gp);color:var(--gd);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;display:inline-flex}
+.bc-tier-l{background:var(--gu);color:var(--t2);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;display:inline-flex}
+
+/* Impact cell */
+.bc-impact{font-size:11.5px;color:var(--t2);line-height:1.45;font-style:italic}
+
+/* Results count bar */
+.board-count-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 0 10px;border-bottom:1px solid var(--border);margin-bottom:0}
+.board-cnt{font-size:12.5px;color:var(--tm);font-weight:500}
+.board-cnt strong{color:var(--t1)}
+.board-reset{background:transparent;border:none;font-size:12px;color:var(--gb);font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;padding:4px 8px;border-radius:6px;transition:all .2s}
+.board-reset:hover{background:var(--gp)}
+
+/* ===== DETAIL PANEL ===== */
+.detail-panel{position:fixed;right:0;top:0;height:100vh;width:420px;background:#fff;border-left:2px solid var(--border);box-shadow:-8px 0 40px rgba(0,0,0,.12);z-index:200;transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);overflow-y:auto}
+.detail-panel.open{transform:translateX(0)}
+.detail-inner{padding:0}
+.detail-hdr{padding:20px 24px;background:linear-gradient(135deg,var(--gd),var(--gm));display:flex;align-items:flex-start;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:2}
+.detail-eyebrow{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gll);margin-bottom:5px}
+.detail-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#fff;line-height:1.35}
+.detail-close{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:8px;width:32px;height:32px;cursor:pointer;color:rgba(255,255,255,.7);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.detail-close:hover{background:rgba(255,255,255,.2);color:#fff}
+.detail-body{padding:20px 24px}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.detail-block{background:var(--gu);border:1px solid var(--border);border-radius:12px;padding:14px}
+.detail-block.full{grid-column:1/-1}
+.detail-lbl{font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--tm);margin-bottom:6px}
+.detail-val{font-size:12.5px;color:var(--t2);line-height:1.55}
+.detail-val.italic{font-style:italic}
+.detail-val.bold{font-weight:700;color:var(--gd);font-size:13px}
+.detail-opts{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.detail-opt{border-radius:9px;padding:10px 12px;border:1.5px solid var(--border);background:#fff;font-size:11.5px;color:var(--t2);line-height:1.45;position:relative}
+.detail-opt.is-rec{border-color:var(--gb);background:var(--gp)}
+.detail-opt-rec{position:absolute;top:-7px;left:9px;background:var(--gb);color:#fff;font-size:8px;font-weight:800;padding:2px 7px;border-radius:4px;letter-spacing:.5px;text-transform:uppercase}
+.detail-opt-name{font-weight:700;color:var(--t1);margin-bottom:2px;font-size:11px}
+
+/* Group divider rows in board */
+.board-group-hdr{display:grid;grid-template-columns:110px 110px 130px 1fr 160px 160px 1fr;background:linear-gradient(90deg,var(--gu),#fff);border-bottom:1px solid var(--border);padding:0}
+.bgh-driver{padding:8px 14px;display:flex;align-items:center;gap:8px}
+.bgh-label{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.bgh-label.TIME{color:var(--tc)}.bgh-label.COST{color:var(--cc)}.bgh-label.EXPERIENCE{color:var(--ec)}
+.bgh-count{font-size:10px;color:var(--tm);font-weight:500}
+.bgh-line{grid-column:2/-1;border-left:1px solid var(--border)}
+
+@media(max-width:1100px){.board-col-headers,.board-row,.board-group-hdr{grid-template-columns:90px 90px 110px 1fr 140px 140px 1fr}}
+@media(max-width:768px){.board-col-headers{display:none}.board-row{display:block;padding:12px 14px}.board-cell{border:none;padding:3px 0;min-height:auto}.detail-panel{width:100%;border-left:none;border-top:2px solid var(--border)}}
+.pbc{background:#fff;border-radius:16px;border:1.5px solid var(--border);overflow:hidden;transition:all .25s;cursor:pointer;position:relative}
+.pbc:hover{border-color:var(--gb);box-shadow:0 8px 32px rgba(45,138,78,.1);transform:translateY(-2px)}
+.pbc.exp{border-color:var(--gb);box-shadow:0 12px 40px rgba(45,138,78,.13)}
+.cacc{height:4px;width:100%}
+.cacc.TIME{background:linear-gradient(90deg,#1a6b5c,#3ab66a)}
+.cacc.COST{background:linear-gradient(90deg,#7a3200,#f5a623)}
+.cacc.EXPERIENCE{background:linear-gradient(90deg,#2a2680,#6b6bdb)}
+.chead{padding:18px 20px 14px;display:flex;gap:12px;align-items:flex-start}
+.dbadge{flex-shrink:0;padding:4px 9px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+.dbadge.TIME{background:var(--tcb);color:var(--tc)}
+.dbadge.COST{background:var(--ccb);color:var(--cc)}
+.dbadge.EXPERIENCE{background:var(--ecb);color:var(--ec)}
+.cpain{font-family:'Syne',sans-serif;font-size:14.5px;font-weight:700;color:var(--t1);line-height:1.35;flex:1}
+.cmeta{padding:0 20px 14px;display:flex;gap:7px;flex-wrap:wrap}
+.mtag{padding:3px 9px;border-radius:6px;font-size:11px;font-weight:500;border:1px solid var(--border);color:var(--t2);background:var(--gu)}
+.mtag.stg{border-color:#c8ddf0;background:#f0f7ff;color:#1a4a7a}
+.mtag.mE{border-color:#ffd6b3;background:#fff5ed;color:#7a3200}
+.mtag.mD{border-color:#ffedb3;background:#fffbf0;color:#7a5000}
+.mtag.mM{border-color:#b3e8c8;background:#f0faf4;color:#1a5c36}
+.mtag.rec{border-color:var(--gb);background:var(--gp);color:var(--gd);font-weight:700}
+.cimp{padding:12px 20px;background:var(--gu);border-top:1px solid var(--border);display:flex;gap:9px;align-items:flex-start}
+.cimp-ico{font-size:13px;flex-shrink:0;margin-top:1px}
+.cimp-txt{font-size:12px;color:var(--t2);line-height:1.55;font-style:italic}
+.cebtn{position:absolute;bottom:12px;right:14px;width:26px;height:26px;border-radius:50%;background:var(--gp);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--gb);font-size:12px;transition:all .2s}
+.cebtn:hover{background:var(--gb);color:#fff}
+.cec{display:none;border-top:1px solid var(--border)}
+.pbc.exp .cec{display:block}
+.pbc.exp .cebtn{transform:rotate(180deg);background:var(--gb);color:#fff}
+.esec{padding:16px 20px;border-bottom:1px dashed var(--border)}
+.esec:last-child{border-bottom:none}
+.elbl{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--tm);margin-bottom:7px}
+.egtm{font-size:13px;color:var(--t2);line-height:1.6;font-weight:500}
+.evp{font-size:13.5px;font-weight:700;color:var(--gd);line-height:1.5}
+.ogrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.obox{padding:11px;border-radius:9px;border:1.5px solid var(--border);position:relative}
+.obox.rec{border-color:var(--gb);background:var(--gp)}
+.orbadge{position:absolute;top:-7px;left:9px;background:var(--gb);color:#fff;font-size:9px;font-weight:700;letter-spacing:1px;padding:2px 7px;border-radius:4px;text-transform:uppercase}
+.otitle{font-size:11px;font-weight:700;color:var(--t1);margin-bottom:4px;line-height:1.25}
+.odesc{font-size:11px;color:var(--t2);line-height:1.45}
+.brow{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.bbox{background:var(--gu);border:1px solid var(--gp);border-radius:9px;padding:10px}
+.bnum{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--gb);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.btxt{font-size:11.5px;font-weight:600;color:var(--t1);line-height:1.4}
+/* ===== IP ROSTER — 3-TIER HIERARCHY ===== */
+/* legend strip */
+.ip-legend-strip{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px;padding:14px 18px;background:#fff;border-radius:12px;border:1.5px solid var(--border);align-items:center}
+.ip-legend-strip-lbl{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--tm);margin-right:6px}
+.ip-leg{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--t2)}
+.ip-leg-swatch{width:12px;height:12px;border-radius:3px}
+/* TIER 1: Pillar columns */
+.ip-framework{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start}
+.ipr-pillar{border-radius:20px;overflow:hidden;box-shadow:0 6px 28px rgba(0,0,0,.09);border:2px solid transparent;transition:all .25s}
+.ipr-pillar:hover{box-shadow:0 10px 40px rgba(0,0,0,.14);transform:translateY(-3px)}
+.ipr-pillar-hdr{padding:24px 22px 20px;position:relative;overflow:hidden}
+.ipr-pillar-hdr::before{content:'';position:absolute;top:-24px;right:-18px;width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,.1);pointer-events:none}
+.ipr-pillar-hdr::after{content:'';position:absolute;bottom:-18px;left:-8px;width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.06);pointer-events:none}
+.ipr-tier-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.22);font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.9);margin-bottom:10px;border:1px solid rgba(255,255,255,.28)}
+.ipr-pillar-name{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#fff;line-height:1.2;margin-bottom:4px;letter-spacing:-.4px}
+.ipr-pillar-sub{font-size:11px;color:rgba(255,255,255,.6);font-weight:500}
+.ipr-pillar-stats{display:flex;gap:18px;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.18)}
+.ipr-stat{text-align:center}
+.ipr-stat-n{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#fff;line-height:1}
+.ipr-stat-l{font-size:9px;color:rgba(255,255,255,.5);margin-top:3px;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+.ipr-pillar-body{background:#f8faf9;padding:16px}
+/* section labels */
+.ipr-section-lbl{display:flex;align-items:center;gap:8px;padding:5px 0 8px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+.ipr-section-lbl .ipr-sl-text{white-space:nowrap}
+.ipr-section-lbl::after{content:'';flex:1;height:1.5px;border-radius:2px}
+/* TIER 2: IP Cards */
+.ipr-ip-group{margin-bottom:14px}
+.ipr-ip-card{border-radius:13px;padding:14px 15px;margin-bottom:9px;border:2px solid;position:relative;cursor:default;transition:all .22s;background:#fff}
+.ipr-ip-card:last-child{margin-bottom:0}
+.ipr-ip-card.live-card{cursor:pointer}
+.ipr-ip-card.live-card:hover{transform:translateX(4px);box-shadow:0 5px 20px rgba(0,0,0,.11)}
+.ipr-ip-card.bld-card{opacity:.88}
+.ipr-sdot{position:absolute;top:12px;right:12px;width:8px;height:8px;border-radius:50%}
+.ipr-sdot.live{background:#3ab66a}
+.ipr-sdot.bld{background:#f5a623}
+.ipr-type-flag{display:inline-flex;align-items:center;gap:4px;font-size:8.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:5px;margin-bottom:7px}
+.ipr-ip-name{font-family:'Syne',sans-serif;font-size:13.5px;font-weight:800;line-height:1.3;margin-bottom:5px;padding-right:18px}
+.ipr-ip-desc{font-size:11px;line-height:1.5;margin-bottom:0}
+.ipr-ip-link{display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:10.5px;font-weight:700;text-decoration:none;transition:opacity .2s}
+.ipr-ip-link:hover{opacity:.75;text-decoration:underline}
+/* TIER 3: Entry Point cards — lighter, indented */
+.ipr-ep-group{margin-bottom:14px}
+.ipr-ep-indent{margin-left:12px;padding-left:12px;border-left:2.5px solid;border-radius:0;display:flex;flex-direction:column;gap:7px}
+.ipr-ep-card{border-radius:10px;padding:11px 13px;border:1.5px solid;position:relative;cursor:default;transition:all .2s;background:#fff}
+.ipr-ep-card.live-card{cursor:pointer}
+.ipr-ep-card.live-card:hover{transform:translateX(3px)}
+.ipr-ep-card .ipr-sdot{width:6px;height:6px;top:10px;right:10px}
+.ipr-ep-name{font-size:12px;font-weight:700;line-height:1.3;margin-bottom:3px;padding-right:14px}
+.ipr-ep-desc{font-size:10.5px;line-height:1.45}
+.ipr-ep-link{display:inline-flex;align-items:center;gap:3px;margin-top:5px;font-size:10px;font-weight:700;text-decoration:none}
+.ipr-ep-link:hover{text-decoration:underline}
+/* process (non-IP) */
+.ipr-process-card{border-radius:8px;padding:9px 12px;border:1.5px dashed var(--border);background:#f9f9f9;margin-bottom:10px}
+.ipr-process-badge{display:inline-flex;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border-radius:4px;background:#efefef;color:var(--tm);margin-bottom:5px}
+.ipr-process-name{font-size:11px;font-weight:600;color:var(--tm);line-height:1.3}
+/* shared edit/url rows */
+.ipr-url-row{display:flex;gap:5px;margin-top:8px;padding-top:8px;border-top:1px dashed rgba(0,0,0,.08)}
+.ipr-url-input{flex:1;padding:5px 9px;border-radius:7px;border:1.5px solid var(--border);font-size:10.5px;font-family:'DM Sans',sans-serif;color:var(--t1);outline:none;background:rgba(255,255,255,.7);min-width:0;transition:border-color .2s}
+.ipr-url-input:focus{border-color:var(--gb)}
+.ipr-url-input::placeholder{color:var(--tm)}
+.ipr-url-save{padding:5px 10px;border-radius:7px;background:var(--gb);color:#fff;border:none;font-size:10px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.ipr-editrow{display:flex;align-items:center;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,.06)}
+.ipr-editlbl{font-size:9px;color:var(--tm);font-weight:700;letter-spacing:.5px;text-transform:uppercase;white-space:nowrap}
+.ipr-tog{display:flex;gap:3px}
+.itbtn{padding:3px 9px;border-radius:5px;font-size:9px;font-weight:700;border:1px solid var(--border);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;background:transparent;color:var(--tm)}
+.itbtn.lsel{background:#3ab66a;color:#fff;border-color:#3ab66a}
+.itbtn.bsel{background:#f5a623;color:#fff;border-color:#f5a623}
+/* legacy compat */
+.ipf-url-input{flex:1;padding:5px 9px;border-radius:7px;border:1.5px solid var(--border);font-size:10.5px;font-family:'DM Sans',sans-serif;color:var(--t1);outline:none;background:var(--gu);min-width:0}
+.ipf-url-save{padding:5px 10px;border-radius:7px;background:var(--gb);color:#fff;border:none;font-size:10px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
+@media(max-width:1100px){.ip-framework{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.ip-framework{grid-template-columns:1fr}}
+
+/* ===== DISCOVERY PROBING QUESTIONS ===== */
+.disc-wrap{display:grid;grid-template-columns:320px 1fr;gap:0;background:#fff;border-radius:18px;border:1.5px solid var(--border);overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.06);margin-bottom:24px}
+.disc-sidebar{border-right:2px solid var(--border);display:flex;flex-direction:column}
+.disc-sb-hdr{padding:16px 18px;background:linear-gradient(135deg,var(--gd),var(--gm));border-bottom:1px solid rgba(255,255,255,.1)}
+.disc-sb-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:#fff;margin-bottom:3px}
+.disc-sb-sub{font-size:11px;color:rgba(255,255,255,.55)}
+.disc-sb-body{flex:1;overflow-y:auto;max-height:560px}
+/* Driver tabs in sidebar */
+.disc-driver-tab{padding:12px 18px;border-bottom:1px solid var(--border);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:10px}
+.disc-driver-tab:hover{background:var(--gu)}
+.disc-driver-tab.active{background:var(--gp);border-left:3px solid var(--gb)}
+.disc-driver-tab.active .ddt-name{color:var(--gd);font-weight:700}
+.ddt-pill{padding:2px 8px;border-radius:5px;font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;flex-shrink:0}
+.ddt-pill.TIME{background:var(--tcb);color:var(--tc)}
+.ddt-pill.COST{background:var(--ccb);color:var(--cc)}
+.ddt-pill.EXPERIENCE{background:var(--ecb);color:var(--ec)}
+.ddt-name{font-size:12.5px;font-weight:500;color:var(--t2);line-height:1.3}
+.ddt-cnt{font-size:10px;color:var(--tm);margin-left:auto;white-space:nowrap}
+/* Pain items in sidebar */
+.disc-mat-group{border-bottom:1px solid var(--border)}
+.disc-mat-hdr{padding:8px 18px;background:#f7faf8;display:flex;align-items:center;gap:8px;cursor:pointer}
+.disc-mat-lbl{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--tm)}
+.disc-mat-badge{padding:2px 8px;border-radius:5px;font-size:9px;font-weight:700}
+.disc-mat-badge.Emerging{background:#fff5ed;color:#7a3200}
+.disc-mat-badge.Developing{background:#fffbf0;color:#7a5000}
+.disc-mat-badge.Mature{background:#f0faf4;color:#1a5c36}
+.disc-pain-item{padding:9px 18px 9px 28px;border-bottom:1px dashed var(--border);cursor:pointer;display:flex;align-items:flex-start;gap:8px;transition:all .15s}
+.disc-pain-item:hover{background:var(--gu)}
+.disc-pain-item.sel{background:var(--gp)}
+.disc-pain-item.sel .dpi-check{background:var(--gb);border-color:var(--gb)}
+.disc-pain-item.sel .dpi-check::after{content:'✓';color:#fff;font-size:9px;font-weight:800}
+.dpi-check{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .15s}
+.dpi-txt{font-size:12px;color:var(--t2);line-height:1.4;flex:1}
+.disc-pain-item.sel .dpi-txt{color:var(--gd);font-weight:600}
+/* Right panel: Questions */
+.disc-qpanel{display:flex;flex-direction:column}
+.disc-qhdr{padding:16px 22px;background:var(--gu);border-bottom:1.5px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.disc-qhdr-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:var(--t1)}
+.disc-qhdr-badge{background:var(--gp);border:1.5px solid var(--gb);border-radius:20px;padding:3px 11px;font-size:11px;font-weight:700;color:var(--gd);display:none}
+.disc-qempty{padding:50px 28px;text-align:center;color:var(--tm)}
+.disc-qempty .ico{font-size:36px;margin-bottom:10px}
+.disc-qempty strong{font-family:'Syne',sans-serif;font-size:16px;color:var(--t2);display:block;margin-bottom:6px}
+.disc-qempty p{font-size:12.5px;line-height:1.6;max-width:240px;margin:0 auto}
+.disc-qbody{padding:20px 22px;overflow-y:auto;max-height:500px}
+.disc-q-group{margin-bottom:22px}
+.disc-q-glbl{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--tm);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.disc-q-glbl::after{content:'';flex:1;height:1px;background:var(--border)}
+.disc-q-item{display:flex;gap:10px;padding:10px 12px;background:var(--gu);border:1px solid var(--border);border-radius:10px;margin-bottom:7px;align-items:flex-start}
+.disc-q-num{width:20px;height:20px;border-radius:6px;background:var(--gb);color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.disc-q-text{font-size:13px;color:var(--t1);line-height:1.55;font-weight:500}
+.disc-q-text em{color:var(--gb);font-style:normal;font-weight:700}
+.disc-q-tag{display:inline-flex;align-items:center;gap:4px;margin-top:4px;font-size:10px;color:var(--tm);font-weight:600}
+.disc-overall-q{background:linear-gradient(135deg,var(--gd),var(--gm));border-radius:12px;padding:14px 18px;margin-bottom:10px}
+.disc-overall-q .dq-lbl{font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gll);margin-bottom:5px}
+.disc-overall-q .dq-txt{font-size:13px;color:#fff;line-height:1.55;font-weight:500}
+.disc-copyq-btn{display:flex;align-items:center;gap:6px;margin:0 22px 16px;padding:8px 16px;background:var(--gu);border:1.5px solid var(--border);border-radius:9px;font-size:12px;font-weight:600;color:var(--t2);cursor:pointer;font-family:'DM Sans',sans-serif;width:fit-content;transition:all .2s}
+.disc-copyq-btn:hover{border-color:var(--gb);color:var(--gb)}
+/* Keep old discovery result styles but rename to avoid conflict */
+
+/* ===== DISCOVERY FLOW STEPS ===== */
+.disc-flow-steps{display:flex;align-items:center;gap:10px;margin-top:16px}
+.dfs-step{display:flex;align-items:center;gap:7px;padding:6px 14px;border-radius:20px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15)}
+.dfs-step.active{background:var(--gb);border-color:var(--gb)}
+.dfs-num{width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff}
+.dfs-step.active .dfs-num{background:rgba(255,255,255,.3)}
+.dfs-lbl{font-size:12px;font-weight:600;color:rgba(255,255,255,.75)}
+.dfs-step.active .dfs-lbl{color:#fff}
+.dfs-arrow{font-size:14px;color:rgba(255,255,255,.3)}
+
+/* ===== NOTEPAD SECTION ===== */
+.notepad-section{background:#fff;border-radius:20px;border:1.5px solid var(--border);overflow:hidden;margin-top:22px;box-shadow:0 4px 20px rgba(0,0,0,.05)}
+.notepad-hdr{padding:20px 24px;background:linear-gradient(135deg,#f8fcfa,var(--gu));border-bottom:1.5px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.notepad-hdr-left{}
+.notepad-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--t1);margin-bottom:4px}
+.notepad-sub{font-size:12.5px;color:var(--tm)}
+.notepad-hdr-right{display:flex;align-items:center;gap:12px}
+
+/* MIC BUTTON */
+.mic-wrap{display:flex;align-items:center;gap:10px}
+.mic-btn{display:flex;align-items:center;gap:7px;padding:10px 18px;border-radius:22px;background:var(--gd);border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;box-shadow:0 3px 12px rgba(13,51,32,.2)}
+.mic-btn:hover{background:var(--gm);transform:scale(1.03)}
+.mic-btn.recording{background:#c0392b;animation:micPulseBtn 1.2s ease-in-out infinite}
+@keyframes micPulseBtn{0%,100%{box-shadow:0 3px 12px rgba(192,57,43,.3)}50%{box-shadow:0 3px 20px rgba(192,57,43,.6)}}
+.mic-icon{font-size:16px}
+.mic-lbl{font-size:12px;font-weight:700;color:#fff;letter-spacing:.3px}
+.mic-status{display:flex;align-items:center;gap:7px}
+.mic-pulse{width:10px;height:10px;border-radius:50%;background:#c0392b;animation:micPulse 1s ease-in-out infinite}
+@keyframes micPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.mic-timer{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--t1)}
+.mic-note{font-size:10.5px;color:var(--tm);max-width:160px;line-height:1.4}
+
+/* NOTEPAD TAGS ROW */
+.notepad-tags-row{padding:12px 24px;background:var(--gu);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.nt-label{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--tm);white-space:nowrap}
+.nt-tags{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.nt-tag{padding:4px 11px;border-radius:20px;font-size:11px;font-weight:700;border:1.5px solid;display:flex;align-items:center;gap:5px}
+.nt-tag.TIME{background:var(--tcb);color:var(--tc);border-color:var(--tc)}
+.nt-tag.COST{background:var(--ccb);color:var(--cc);border-color:var(--cc)}
+.nt-tag.EXPERIENCE{background:var(--ecb);color:var(--ec);border-color:var(--ec)}
+
+/* NOTEPAD BODY — per question notes */
+.notepad-body{padding:0}
+.notepad-empty-state{padding:40px 24px;text-align:center;color:var(--tm)}
+.nq-row{border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:0}
+.nq-row:last-child{border-bottom:none}
+.nq-question{padding:16px 20px;border-right:1px solid var(--border);background:var(--gu)}
+.nq-q-num{font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gb);margin-bottom:5px}
+.nq-q-text{font-size:12.5px;color:var(--t1);line-height:1.55;font-weight:500}
+.nq-q-tag{font-size:10px;color:var(--tm);margin-top:4px;font-weight:600}
+.nq-note-cell{padding:10px 14px;display:flex;flex-direction:column;gap:0}
+.nq-note-input{width:100%;border:none;outline:none;resize:none;font-family:'DM Sans',sans-serif;font-size:12.5px;color:var(--t1);line-height:1.6;background:transparent;min-height:56px;padding:4px 0}
+.nq-note-input::placeholder{color:var(--tm)}
+
+/* FREE FORM NOTES */
+.notepad-freeform{border-top:2px solid var(--border)}
+.nff-hdr{padding:14px 22px 8px;display:flex;align-items:center;justify-content:space-between}
+.nff-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:var(--t1)}
+.nff-actions{display:flex;gap:6px}
+.nff-btn{padding:5px 12px;border-radius:8px;background:var(--gu);border:1.5px solid var(--border);font-size:11px;font-weight:600;color:var(--t2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.nff-btn:hover{border-color:var(--gb);color:var(--gb)}
+.nff-textarea{width:100%;min-height:140px;padding:14px 22px;border:none;outline:none;resize:vertical;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--t1);line-height:1.75;background:#fff}
+.nff-textarea::placeholder{color:var(--tm)}
+
+/* SEND TO PITCH BUILDER */
+.disc-to-pitch{padding:20px 24px;border-top:2px solid var(--border);background:linear-gradient(90deg,var(--gu),#fff);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.dtp-left{display:flex;align-items:center;gap:14px}
+.dtp-icon{font-size:28px}
+.dtp-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--t1);margin-bottom:3px}
+.dtp-sub{font-size:12px;color:var(--tm)}
+.dtp-btn{padding:12px 24px;border-radius:12px;background:var(--gb);color:#fff;border:none;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;cursor:pointer;transition:all .25s;box-shadow:0 4px 14px rgba(45,138,78,.25);white-space:nowrap}
+.dtp-btn:hover:not(:disabled){background:var(--gm);transform:translateY(-1px);box-shadow:0 6px 20px rgba(45,138,78,.3)}
+.dtp-btn:disabled{background:var(--border);color:var(--tm);cursor:not-allowed;box-shadow:none;transform:none}
+.dtp-btn.ready{background:linear-gradient(135deg,var(--gb),var(--gm));animation:dtpGlow .8s ease-in-out 2}
+@keyframes dtpGlow{0%,100%{box-shadow:0 4px 14px rgba(45,138,78,.25)}50%{box-shadow:0 4px 28px rgba(45,138,78,.55)}}
+.dhero::after{content:'';position:absolute;right:-30px;top:-30px;width:180px;height:180px;background:radial-gradient(circle,rgba(61,182,106,.14),transparent 70%)}
+.dhero h2{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:#fff;margin-bottom:7px}
+.dhero p{font-size:13.5px;color:rgba(255,255,255,.55);line-height:1.65;max-width:460px}
+.sflow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:24px}
+.sbox{background:#fff;border-radius:14px;border:1.5px solid var(--border);padding:22px}
+.snum{width:34px;height:34px;background:var(--gb);border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#fff;margin-bottom:12px}
+.stitle{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--t1);margin-bottom:6px}
+.sdesc{font-size:12.5px;color:var(--t2);line-height:1.6}
+.ssel{margin-top:12px;width:100%;padding:9px 12px;border-radius:9px;border:1.5px solid var(--border);font-size:13px;font-family:'DM Sans',sans-serif;color:var(--t1);background:var(--gu);outline:none;cursor:pointer;transition:border-color .2s}
+.ssel:focus{border-color:var(--gb)}
+.dres{background:#fff;border-radius:18px;border:2px solid var(--gb);overflow:hidden;box-shadow:0 8px 40px rgba(45,138,78,.09);display:none}
+.dres.show{display:block}
+.rh{background:linear-gradient(135deg,var(--gd),var(--gm));padding:22px 26px}
+.rh h3{font-family:'Syne',sans-serif;font-size:19px;font-weight:800;color:#fff;line-height:1.3;margin-bottom:9px}
+.rtags{display:flex;gap:7px;flex-wrap:wrap}
+.rtag{padding:3px 11px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(255,255,255,.14);color:#fff}
+.rb{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.rcol{padding:22px 26px;border-right:1px solid var(--border)}
+.rcol:last-child{border-right:none}
+.rslbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tm);margin-bottom:9px;display:flex;align-items:center;gap:6px}
+.rslbl::after{content:'';flex:1;height:1px;background:var(--border)}
+.rgtm{font-size:12.5px;color:var(--t2);line-height:1.6;border-left:3px solid var(--gb);padding-left:11px;margin-bottom:14px;font-style:italic}
+.rvp{font-size:14px;font-weight:700;color:var(--gd);line-height:1.5}
+.sboxes{display:flex;flex-direction:column;gap:11px}
+.sb{background:var(--gu);border:1px solid var(--gp);border-radius:11px;padding:13px 15px}
+.sblbl{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gb);margin-bottom:5px}
+.sbtxt{font-size:12.5px;color:var(--t1);line-height:1.65;font-weight:500}
+.sbtxt em{color:var(--gb);font-style:normal;font-weight:700}
+.ro{padding:18px 26px;border-top:1px solid var(--border);background:var(--gu)}
+.o3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-top:11px}
+.opt{background:#fff;border:1.5px solid var(--border);border-radius:11px;padding:13px;position:relative}
+.opt.ir{border-color:var(--gb);background:var(--gp)}
+.orl{position:absolute;top:-8px;left:11px;background:var(--gb);color:#fff;font-size:9px;font-weight:700;letter-spacing:1px;padding:2px 7px;border-radius:4px;text-transform:uppercase}
+.oname{font-size:11px;font-weight:700;color:var(--t1);margin-bottom:3px}
+.odsc{font-size:11px;color:var(--t2);line-height:1.5}
+.rbr{padding:18px 26px;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.bpill{background:#fff;border:1px solid var(--gp);border-left:4px solid var(--gb);border-radius:9px;padding:11px 13px;display:flex;align-items:flex-start;gap:9px}
+.bpill .ico{font-size:15px}
+.bpill .btxt{font-size:12px;font-weight:600;color:var(--t1);line-height:1.4}
+/* JOURNEY */
+.jstages{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-bottom:22px}
+.jstage{background:#fff;border:1.5px solid var(--border);border-radius:11px;padding:13px 8px;text-align:center;cursor:pointer;transition:all .2s;min-width:100px}
+.jstage:hover{border-color:var(--gb);background:var(--gu)}
+.jstage.active{border-color:var(--gb);background:var(--gb)}
+.jsname{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--t1);margin-bottom:3px;line-height:1.2}
+.jstage.active .jsname{color:#fff}
+.jscnt{font-size:11px;color:var(--tm)}
+.jstage.active .jscnt{color:rgba(255,255,255,.75)}
+/* IP DROPDOWN NAV */
+.ip-dropdown-wrap{position:relative}
+.ip-dd-btn{white-space:nowrap}
+.ip-mega-dropdown{position:absolute;top:calc(100% + 10px);right:0;width:820px;background:#fff;border-radius:16px;border:1.5px solid var(--border);box-shadow:0 16px 60px rgba(0,0,0,.18);z-index:999;overflow:hidden}
+.ip-mega-inner{padding:0}
+.ip-mega-hdr{background:linear-gradient(135deg,var(--gd),var(--gm));padding:16px 22px;display:flex;align-items:center;justify-content:space-between}
+.ip-mega-hdr-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#fff}
+.ip-mega-hdr-sub{font-size:11px;color:rgba(255,255,255,.55)}
+.ip-mega-legend{display:flex;gap:14px;align-items:center}
+.ip-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:rgba(255,255,255,.7);font-weight:500}
+.ip-legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.ip-legend-dot.live{background:#3ab66a}
+.ip-legend-dot.bld{background:#f5a623;border:1px solid rgba(255,255,255,.3)}
+.ip-pillars-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border-top:1px solid var(--border)}
+.ip-pillar-col{padding:0;border-right:1px solid var(--border)}
+.ip-pillar-col:last-child{border-right:none}
+.ip-pillar-hdr{padding:12px 16px;background:var(--gu);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.ip-pillar-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ip-pillar-dot.rc{background:var(--gl)}.ip-pillar-dot.rt{background:#f5a623}.ip-pillar-dot.tr{background:#6b6bdb}
+.ip-pillar-name{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:var(--t1);text-transform:uppercase;letter-spacing:.5px}
+.ip-cards-col{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+/* Each IP card in dropdown */
+.ipdrop-card{border-radius:10px;padding:10px 12px;border:1.5px solid var(--border);position:relative;transition:all .2s}
+.ipdrop-card.live-card{border-color:var(--gp);background:#fff;cursor:pointer}
+.ipdrop-card.live-card:hover{border-color:var(--gb);box-shadow:0 2px 12px rgba(45,138,78,.12);transform:translateY(-1px)}
+.ipdrop-card.bld-card{background:#fffbf7;border-color:#ffe0c8;cursor:default}
+.ipdrop-card.non-ip{background:#f8f8f8;border-color:#e0e0e0;cursor:default;border-style:dashed}
+.ipdrop-status-dot{position:absolute;top:9px;right:9px;width:8px;height:8px;border-radius:50%}
+.ipdrop-status-dot.live{background:#3ab66a}
+.ipdrop-status-dot.bld{background:#f5a623}
+.ipdrop-name{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--t1);line-height:1.3;margin-bottom:3px;padding-right:14px}
+.ipdrop-card.non-ip .ipdrop-name{color:var(--tm);font-weight:500}
+.ipdrop-desc{font-size:10.5px;color:var(--t2);line-height:1.45}
+.ipdrop-link-badge{display:inline-flex;align-items:center;gap:3px;margin-top:5px;font-size:10px;font-weight:700;color:var(--gb);text-decoration:none}
+.ipdrop-link-badge:hover{text-decoration:underline}
+.ipdrop-arrow-link{display:flex;align-items:center;justify-content:space-between;text-decoration:none}
+.ipdrop-edit-row{display:flex;align-items:center;gap:6px;margin-top:6px;padding-top:6px;border-top:1px solid var(--border)}
+.ipdrop-edit-lbl{font-size:10px;color:var(--tm);font-weight:600}
+.ipdrop-toggle{display:flex;gap:4px}
+.toggle-btn{padding:2px 8px;border-radius:5px;font-size:9px;font-weight:700;border:1px solid var(--border);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;background:transparent;color:var(--tm)}
+.toggle-btn.live-sel{background:#3ab66a;color:#fff;border-color:#3ab66a}
+.toggle-btn.bld-sel{background:#f5a623;color:#fff;border-color:#f5a623}
+.ip-mega-footer{padding:10px 16px;background:var(--gu);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.ip-mega-footer-txt{font-size:11px;color:var(--tm)}
+.ip-mega-footer-link{font-size:11px;font-weight:700;color:var(--gb);text-decoration:none}
+.ip-mega-footer-link:hover{text-decoration:underline}
+/* IP ROSTER PAGE (still accessible via switchView) */
+.ipgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:28px}
+.ipc{background:#fff;border:1.5px solid var(--border);border-radius:13px;padding:18px;transition:all .2s}
+.ipc:hover{border-color:var(--gb);box-shadow:0 4px 16px rgba(45,138,78,.07)}
+.ippl{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--tm);margin-bottom:9px;display:flex;align-items:center;gap:6px}
+.pdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.pdot.rc{background:var(--gl)}.pdot.rt{background:#f5a623}.pdot.tr{background:#6b6bdb}
+.ipname{font-family:'Syne',sans-serif;font-size:14.5px;font-weight:700;color:var(--t1);margin-bottom:5px}
+.ipdesc{font-size:12px;color:var(--t2);line-height:1.5}
+.ipst{display:inline-flex;align-items:center;gap:5px;margin-top:9px;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700}
+.ipst.live{background:var(--gp);color:var(--gd)}.ipst.bld{background:#fff3ea;color:#7a3200}
+.sdt{width:6px;height:6px;border-radius:50%}
+.ipst.live .sdt{background:var(--gb)}.ipst.bld .sdt{background:#f5a623}
+.empty{text-align:center;padding:50px 20px;color:var(--tm);grid-column:1/-1}
+.empty .ico{font-size:38px;margin-bottom:14px}
+.empty h3{font-family:'Syne',sans-serif;font-size:19px;font-weight:700;color:var(--t2);margin-bottom:6px}
+.empty p{font-size:13px;line-height:1.6}
+/* PITCH BUILDER */
+.pb-wrap{display:grid;grid-template-columns:1fr 1fr;gap:0;background:#fff;border-radius:20px;border:2px solid var(--border);overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.06)}
+.pb-left{border-right:2px solid var(--border)}
+.pb-right{background:var(--gu)}
+.pb-panel-hdr{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.pb-panel-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:var(--t1);letter-spacing:.3px;text-transform:uppercase}
+.pb-panel-sub{font-size:11px;color:var(--tm);font-weight:500}
+.pb-section{border-bottom:1px solid var(--border)}
+.pb-section:last-child{border-bottom:none}
+.pb-section-hdr{padding:14px 22px 10px;display:flex;align-items:center;gap:10px}
+.pb-section-pill{padding:3px 10px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase}
+.pb-section-pill.TIME{background:var(--tcb);color:var(--tc)}
+.pb-section-pill.COST{background:var(--ccb);color:var(--cc)}
+.pb-section-pill.EXPERIENCE{background:var(--ecb);color:var(--ec)}
+.pb-section-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--t1)}
+.pb-section-count{font-size:11px;color:var(--tm);margin-left:auto}
+.pb-pain-list{padding:0 22px 14px;display:flex;flex-direction:column;gap:6px}
+.pb-pain-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);cursor:pointer;transition:all .2s;background:#fff}
+.pb-pain-item:hover{border-color:var(--gb);background:var(--gu)}
+.pb-pain-item.sel{border-color:var(--gb);background:var(--gp)}
+.pb-pain-item.sel .pb-check{background:var(--gb);border-color:var(--gb)}
+.pb-pain-item.sel .pb-check::after{content:'✓';color:#fff;font-size:10px;font-weight:700}
+.pb-check{width:18px;height:18px;border-radius:5px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .2s}
+.pb-pain-txt{font-size:12.5px;color:var(--t2);line-height:1.45;font-weight:500;flex:1}
+.pb-pain-item.sel .pb-pain-txt{color:var(--gd);font-weight:600}
+/* RIGHT PANE - PAVE OUTPUT */
+.pave-empty{padding:60px 28px;text-align:center;color:var(--tm)}
+.pave-empty .ico{font-size:36px;margin-bottom:12px}
+.pave-empty p{font-size:13px;line-height:1.65;max-width:260px;margin:0 auto}
+.pave-empty strong{color:var(--t2);font-family:'Syne',sans-serif;display:block;margin-bottom:6px;font-size:16px}
+/* PAVE FRAMEWORK */
+.pave-frame{display:none}
+.pave-frame.show{display:block}
+.pave-header{background:linear-gradient(135deg,var(--gd),var(--gm));padding:18px 22px}
+.pave-title-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.pave-badge{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#fff;letter-spacing:-1px}
+.pave-badge span{font-size:12px;font-weight:400;opacity:.6;letter-spacing:.5px}
+.pave-sel-count{background:rgba(255,255,255,.15);border-radius:20px;padding:3px 12px;font-size:11px;font-weight:600;color:var(--gll)}
+.pave-reset{background:transparent;border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:4px 12px;font-size:11px;color:rgba(255,255,255,.7);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.pave-reset:hover{border-color:rgba(255,255,255,.5);color:#fff}
+/* PAVE GRID - mirrors workshop visual */
+.pave-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.pave-col{border-right:1px solid var(--border)}
+.pave-col:last-child{border-right:none}
+.pave-col-hdr{padding:12px 18px;background:#fff;border-bottom:1px solid var(--border);font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--tm)}
+.pave-col-hdr.green{background:var(--gb);color:#fff}
+/* LEFT COL: GTM + Pain Points + Driver + Value Prop */
+.pave-left-inner{display:grid;grid-template-columns:auto 1fr auto auto;gap:0}
+.pave-cell{padding:12px 16px;border-bottom:1px solid var(--border);border-right:1px solid var(--border)}
+.pave-cell:last-child{border-right:none}
+.pave-cell-lbl{font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--tm);margin-bottom:5px}
+.pave-cell-val{font-size:12px;color:var(--t2);line-height:1.5;font-weight:500}
+.pave-cell-val.bold{font-weight:700;color:var(--gd)}
+.pave-cell-val.italic{font-style:italic;color:var(--t2)}
+/* Pain chips */
+.pain-chips{display:flex;flex-direction:column;gap:4px}
+.pain-chip{padding:4px 8px;background:rgba(219,229,252,.4);border-radius:6px;font-size:11px;color:var(--ec);font-weight:600;line-height:1.35}
+.pain-chip.TIME{background:var(--tcb);color:var(--tc)}
+.pain-chip.COST{background:var(--ccb);color:var(--cc)}
+.pain-chip.EXPERIENCE{background:var(--ecb);color:var(--ec)}
+/* RIGHT COL: Steps to Get There + Recommendation */
+.pave-steps-col{background:var(--gu)}
+.pave-steps-section{border-bottom:2px solid var(--border)}
+.pave-steps-hdr{background:var(--gb);padding:10px 16px;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:#fff;letter-spacing:.5px;text-transform:uppercase}
+.pave-steps-hdr .sub{font-size:10px;font-weight:400;opacity:.75;letter-spacing:0;font-family:'DM Sans',sans-serif;display:block;margin-top:2px}
+.pave-opts-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+.pave-opt{padding:12px 10px;border-right:1px solid var(--border);background:#fff}
+.pave-opt:last-child{border-right:none}
+.pave-opt-num{font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--tm);margin-bottom:5px}
+.pave-opt-name{font-size:11px;font-weight:700;color:var(--t1);margin-bottom:3px;line-height:1.3}
+.pave-opt-desc{font-size:10.5px;color:var(--t2);line-height:1.45}
+.pave-opt.reco{background:var(--gp);position:relative}
+.pave-opt.reco .pave-opt-name{color:var(--gd)}
+.pave-reco-badge{position:absolute;top:-8px;left:6px;background:var(--gb);color:#fff;font-size:8px;font-weight:800;padding:2px 7px;border-radius:4px;letter-spacing:.5px;text-transform:uppercase}
+/* RECOMMENDATION BOX */
+.pave-reco-section{}
+.pave-reco-hdr{background:#1e3528;padding:10px 16px;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:var(--gll);letter-spacing:.5px;text-transform:uppercase}
+.pave-reco-hdr .sub{font-size:10px;font-weight:400;opacity:.65;letter-spacing:0;font-family:'DM Sans',sans-serif;display:block;margin-top:2px;color:rgba(255,255,255,.6)}
+.pave-impacts{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.pave-impact{padding:12px 14px;border-right:1px solid var(--border);border-top:1px solid var(--border);background:#fff}
+.pave-impact:last-child{border-right:none}
+.pave-impact-lbl{font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gb);margin-bottom:4px}
+.pave-impact-txt{font-size:11.5px;font-weight:700;color:var(--t1);line-height:1.4}
+/* SAMPLE SCRIPT */
+.pave-script-section{margin-top:0;border-top:2px solid var(--border)}
+.pave-script-hdr{padding:14px 22px;background:linear-gradient(90deg,#0d1f17,#1a3525);display:flex;align-items:center;justify-content:space-between}
+.pave-script-title{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:var(--gll);letter-spacing:1px;text-transform:uppercase}
+.script-tabs-mini{display:flex;gap:5px}
+.stmini{padding:4px 12px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.5);font-family:'DM Sans',sans-serif;transition:all .2s}
+.stmini.active{background:var(--gb);color:#fff;border-color:var(--gb)}
+.script-body{padding:18px 22px;background:#fff;font-size:13px;line-height:1.9;color:var(--t2)}
+.script-body .hook{color:var(--gd);font-weight:700;font-family:'Syne',sans-serif}
+.script-body .pain-ref{color:var(--gb);font-weight:600;font-style:italic}
+.script-body .cta{color:var(--cc);font-weight:700}
+.script-copy-btn{display:flex;align-items:center;gap:6px;margin:0 22px 16px;padding:8px 16px;background:var(--gu);border:1.5px solid var(--border);border-radius:9px;font-size:12px;font-weight:600;color:var(--t2);cursor:pointer;font-family:'DM Sans',sans-serif;width:fit-content;transition:all .2s}
+.script-copy-btn:hover{border-color:var(--gb);color:var(--gb)}
+@media(max-width:1100px){.pb-wrap{grid-template-columns:1fr}.pb-left{border-right:none;border-bottom:2px solid var(--border)}.pave-grid{grid-template-columns:1fr}.pave-opts-row{grid-template-columns:1fr 1fr}.pave-impacts{grid-template-columns:1fr}}
+
+@media(max-width:768px){.hdr-in{padding:11px 14px}.hero-in{grid-template-columns:1fr}.stats{display:none}main{padding:18px 14px 40px}.cgrid{grid-template-columns:1fr}.ipgrid{grid-template-columns:1fr}.rb{grid-template-columns:1fr}.o3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-in">
+    <div class="logo">
+      <div class="logo-ico">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <div class="logo-txt">Atticus <span>Solutions</span></div>
+    </div>
+    <div class="hdr-badge">IP Strategy Playbook</div>
+    <nav class="nav">
+      <button class="ntab" onclick="switchView('ips')">IP Roster</button>
+      <button class="ntab active" onclick="switchView('playbook')">Playbook</button>
+      <button class="ntab" onclick="switchView('discover')">Discovery Call</button>
+      <button class="ntab" onclick="switchView('pitch')">🎯 PAVE</button>
+      <button class="ntab" onclick="switchView('journey')">Journey Map</button>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-in">
+    <div>
+      <div class="hero-eye">Commercial Alignment Tool · March 2026</div>
+      <h1 class="hero-h1">One Story.<br><span>Every Client. Every Time.</span></h1>
+      <p class="hero-p">Your complete IP Strategy Playbook. Find the right pitch for every pain point, at every stage of the journey. The client always feels understood — never pitched.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-n">30</div><div class="stat-l">Pain points<br>mapped</div></div>
+      <div class="stat"><div class="stat-n">7</div><div class="stat-l">IPs across<br>3 pillars</div></div>
+      <div class="stat"><div class="stat-n">3</div><div class="stat-l">Service<br>tiers</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="fbar" id="fbar-global" style="display:none"></div>
+
+<main>
+  <div id="v-playbook">
+
+    <!-- BIG SEARCH BAR -->
+    <div class="pb-search-hero">
+      <div class="pb-search-wrap">
+        <div class="pb-search-icon">🔍</div>
+        <input class="pb-search-input" id="pb-main-search" type="text" placeholder="Search any pain point, IP, driver, or keyword…" oninput="pbBoardSearch(this.value)" autocomplete="off">
+        <button class="pb-search-clear" id="pb-search-clear-btn" onclick="pbClearSearch()" style="display:none">✕</button>
+      </div>
+      <div class="pb-search-hints" id="pb-search-hints">
+        <span class="pb-hint" onclick="pbApplyHint('TIME')">⏱ Time</span>
+        <span class="pb-hint" onclick="pbApplyHint('COST')">💰 Cost</span>
+        <span class="pb-hint" onclick="pbApplyHint('EXPERIENCE')">✨ Experience</span>
+        <span class="pb-hint" onclick="pbApplyHint('Emerging')">🌱 Emerging</span>
+        <span class="pb-hint" onclick="pbApplyHint('Developing')">📈 Developing</span>
+        <span class="pb-hint" onclick="pbApplyHint('Mature')">🏆 Mature</span>
+        <span class="pb-hint" onclick="pbApplyHint('DISCOVERY')">🔍 Discovery</span>
+        <span class="pb-hint" onclick="pbApplyHint('PROPOSAL')">📄 Proposal</span>
+        <span class="pb-hint" onclick="pbApplyHint('Salary Guide')">💵 Salary Guide</span>
+        <span class="pb-hint" onclick="pbApplyHint('Profitability')">📊 Profitability</span>
+      </div>
+    </div>
+
+    <!-- MINDMAP OVERLAY (shows when filter active) -->
+    <div class="mindmap-overlay" id="mindmap-overlay" style="display:none">
+      <div class="mindmap-wrap">
+        <div class="mindmap-hdr">
+          <div class="mindmap-title" id="mm-title">Flow Map</div>
+          <div class="mindmap-subtitle" id="mm-subtitle"></div>
+          <button class="mindmap-close" onclick="closeMindmap()">✕ Close map</button>
+        </div>
+        <div class="mindmap-canvas-wrap">
+          <svg class="mindmap-svg" id="mindmap-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+          <div class="mindmap-nodes" id="mindmap-nodes"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMN BOARD -->
+    <div class="board-wrap" id="board-wrap">
+      <!-- Column headers row -->
+      <div class="board-col-headers">
+        <div class="bch bch-driver">Driver of CX</div>
+        <div class="bch bch-mat">Maturity</div>
+        <div class="bch bch-stage">Sales Stage</div>
+        <div class="bch bch-pain">Pain Point</div>
+        <div class="bch bch-ip">IP / Entry Point</div>
+        <div class="bch bch-tier">Tier</div>
+        <div class="bch bch-impact">Business Impact</div>
+      </div>
+      <div class="board-body" id="board-body"></div>
+    </div>
+
+    <!-- DETAIL PANEL (slides in on row click) -->
+    <div class="detail-panel" id="detail-panel">
+      <div class="detail-inner">
+        <div class="detail-hdr">
+          <div>
+            <div class="detail-eyebrow" id="dp-eyebrow"></div>
+            <div class="detail-title" id="dp-title"></div>
+          </div>
+          <button class="detail-close" onclick="closeDetail()">✕</button>
+        </div>
+        <div class="detail-body">
+          <div class="detail-grid">
+            <div class="detail-block">
+              <div class="detail-lbl">GTM Profile</div>
+              <div class="detail-val italic" id="dp-gtm"></div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-lbl">Atticus Value Prop</div>
+              <div class="detail-val bold" id="dp-vp"></div>
+            </div>
+            <div class="detail-block full">
+              <div class="detail-lbl">Service Options</div>
+              <div class="detail-opts" id="dp-opts"></div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-lbl">Business Benefit 1</div>
+              <div class="detail-val" id="dp-b1"></div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-lbl">Business Benefit 2</div>
+              <div class="detail-val" id="dp-b2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PITCH BUILDER VIEW -->
+  <div id="v-pitch" style="display:none">
+    <div style="margin-bottom:22px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gb);margin-bottom:6px">PAVE Framework</div>
+        <h2 style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--t1);margin-bottom:5px">PAVE</h2>
+        <p style="font-size:13.5px;color:var(--tm);max-width:520px">Select one or more pain points from the left. The PAVE framework (Pain → Atticus Solution → Value → Execute) auto-builds your pitch on the right — with a sample script ready to use.</p>
+      </div>
+      <div style="background:linear-gradient(135deg,var(--gd),var(--gm));border-radius:12px;padding:12px 18px;display:flex;gap:18px">
+        <div style="text-align:center"><div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:var(--gll);letter-spacing:2px">P</div><div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:2px">Pain</div></div>
+        <div style="width:1px;background:rgba(255,255,255,.15)"></div>
+        <div style="text-align:center"><div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:var(--gll);letter-spacing:2px">A</div><div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:2px">Atticus</div></div>
+        <div style="width:1px;background:rgba(255,255,255,.15)"></div>
+        <div style="text-align:center"><div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:var(--gll);letter-spacing:2px">V</div><div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:2px">Value</div></div>
+        <div style="width:1px;background:rgba(255,255,255,.15)"></div>
+        <div style="text-align:center"><div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:var(--gll);letter-spacing:2px">E</div><div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:2px">Execute</div></div>
+      </div>
+    </div>
+
+    <div class="pb-wrap">
+      <!-- LEFT: PAIN POINT SELECTOR -->
+      <div class="pb-left">
+        <div class="pb-panel-hdr">
+          <div>
+            <div class="pb-panel-title">Pain Points</div>
+            <div class="pb-panel-sub">Multi-select across categories</div>
+          </div>
+          <button onclick="pbClearAll()" style="background:var(--gu);border:1.5px solid var(--border);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:600;color:var(--tm);cursor:pointer;font-family:'DM Sans',sans-serif">Clear all</button>
+        </div>
+        <div id="pb-pain-lists"></div>
+      </div>
+      <!-- RIGHT: PAVE OUTPUT -->
+      <div class="pb-right">
+        <div class="pb-panel-hdr">
+          <div>
+            <div class="pb-panel-title">PAVE Pitch Output</div>
+            <div class="pb-panel-sub">Auto-builds as you select</div>
+          </div>
+          <div id="pb-sel-badge" style="display:none;background:var(--gp);border:1.5px solid var(--gb);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;color:var(--gd)"></div>
+        </div>
+        <div id="pave-empty" class="pave-empty">
+          <div class="ico">🎯</div>
+          <strong>Start selecting pain points</strong>
+          <p>Pick one or more from the left. Your PAVE pitch framework will appear here instantly.</p>
+        </div>
+        <div class="pave-frame" id="pave-frame">
+          <!-- PAVE GRID -->
+          <div class="pave-grid">
+            <!-- LEFT: GTM + Pains + Driver + Value Prop -->
+            <div style="border-right:1px solid var(--border)">
+              <div style="background:var(--gu);padding:10px 16px;border-bottom:1px solid var(--border);font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--tm)">GTM · Pain Points · Driver · Atticus Value Prop</div>
+              <div style="display:grid;grid-template-columns:auto 1fr auto auto;border-bottom:1px solid var(--border)">
+                <div style="padding:12px 14px;border-right:1px solid var(--border)">
+                  <div class="pave-cell-lbl">GTM + ICP</div>
+                  <div class="pave-cell-val italic" id="pv-gtm" style="max-width:120px">—</div>
+                </div>
+                <div style="padding:12px 14px;border-right:1px solid var(--border)">
+                  <div class="pave-cell-lbl">Pain Points Selected</div>
+                  <div class="pain-chips" id="pv-pains"></div>
+                </div>
+                <div style="padding:12px 14px;border-right:1px solid var(--border);min-width:80px">
+                  <div class="pave-cell-lbl">Driver of CX</div>
+                  <div id="pv-driver" style="display:flex;flex-direction:column;gap:4px"></div>
+                </div>
+                <div style="padding:12px 14px;min-width:130px">
+                  <div class="pave-cell-lbl">Atticus Value Prop</div>
+                  <div class="pave-cell-val bold" id="pv-vp" style="font-size:11px">—</div>
+                </div>
+              </div>
+            </div>
+            <!-- RIGHT: Steps + Recommendation -->
+            <div class="pave-steps-col">
+              <div class="pave-steps-hdr">Steps to Get There <span class="sub">What needs to happen to solve their problem</span></div>
+              <div class="pave-opts-row" id="pv-opts"></div>
+              <div class="pave-reco-hdr">One Final Recommendation <span class="sub">The one option we think fits them best and why</span></div>
+              <div class="pave-impacts" id="pv-impacts"></div>
+            </div>
+          </div>
+          <!-- SAMPLE SCRIPT SECTION -->
+          <div class="pave-script-section">
+            <div class="pave-script-hdr">
+              <div class="pave-script-title">📝 Sample Script</div>
+              <div class="script-tabs-mini">
+                <button class="stmini active" onclick="pbScriptTab('open',this)">Opening</button>
+                <button class="stmini" onclick="pbScriptTab('pitch',this)">Full Pitch</button>
+                <button class="stmini" onclick="pbScriptTab('close',this)">Close</button>
+              </div>
+            </div>
+            <div class="script-body" id="pave-script"></div>
+            <button class="script-copy-btn" onclick="pbCopyScript()">📋 Copy Script</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="v-discover" style="display:none">
+    <!-- HERO -->
+    <div class="dhero">
+      <h2>🔍 Discovery Call</h2>
+      <p>Select Driver, maturity stage, and pain points → get probing questions → take notes during the call → send directly to PAVE when you're ready.</p>
+      <div class="disc-flow-steps">
+        <div class="dfs-step active"><span class="dfs-num">1</span><span class="dfs-lbl">Probe</span></div>
+        <div class="dfs-arrow">→</div>
+        <div class="dfs-step"><span class="dfs-num">2</span><span class="dfs-lbl">Note</span></div>
+        <div class="dfs-arrow">→</div>
+        <div class="dfs-step"><span class="dfs-num">3</span><span class="dfs-lbl">Pitch</span></div>
+      </div>
+    </div>
+
+    <!-- PROBING QUESTIONS PANEL -->
+    <div class="disc-wrap">
+      <!-- SIDEBAR: Driver → Maturity → Pain Points -->
+      <div class="disc-sidebar">
+        <div class="disc-sb-hdr">
+          <div class="disc-sb-title">1 — Select Context</div>
+          <div class="disc-sb-sub">Driver · Maturity · Pain Points (multi-select)</div>
+        </div>
+        <div class="disc-sb-body" id="disc-sidebar-body"></div>
+      </div>
+      <!-- RIGHT: Probing Questions -->
+      <div class="disc-qpanel">
+        <div class="disc-qhdr">
+          <div class="disc-qhdr-title">📋 2 — Probing Questions</div>
+          <div class="disc-qhdr-badge" id="disc-q-badge"></div>
+        </div>
+        <div id="disc-qempty" class="disc-qempty">
+          <div class="ico">💬</div>
+          <strong>Start with a Driver</strong>
+          <p>Select a Driver of CX on the left. Questions will appear here, organized by maturity stage and pain point.</p>
+        </div>
+        <div id="disc-qbody" style="display:none">
+          <div class="disc-qbody" id="disc-qcontent"></div>
+          <button class="disc-copyq-btn" onclick="copyQuestions()">📋 Copy All Questions</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTEPAD + MIC RECORDER SECTION -->
+    <div class="notepad-section" id="notepad-section">
+      <div class="notepad-hdr">
+        <div class="notepad-hdr-left">
+          <div class="notepad-title">📝 3 — Call Notes</div>
+          <div class="notepad-sub">Capture what they said during the call. Use the mic to record, or type directly.</div>
+        </div>
+        <div class="notepad-hdr-right">
+          <!-- MIC RECORDER -->
+          <div class="mic-wrap" id="mic-wrap">
+            <button class="mic-btn" id="mic-btn" onclick="toggleMic()" title="Start voice recording">
+              <span class="mic-icon" id="mic-icon">🎙</span>
+              <span class="mic-lbl" id="mic-lbl">Record</span>
+            </button>
+            <div class="mic-status" id="mic-status" style="display:none">
+              <span class="mic-pulse"></span>
+              <span class="mic-timer" id="mic-timer">0:00</span>
+            </div>
+            <div class="mic-note" id="mic-note">Voice → text, appended to notes</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NOTED PAIN POINTS TAGS -->
+      <div class="notepad-tags-row" id="notepad-tags-row">
+        <div class="nt-label">Selected pains:</div>
+        <div class="nt-tags" id="nt-tags"><span style="color:var(--tm);font-size:12px;font-style:italic">Select pain points above to tag them here</span></div>
+      </div>
+
+      <!-- NOTES AREA — per question -->
+      <div class="notepad-body" id="notepad-body">
+        <div class="notepad-empty-state" id="notepad-empty">
+          <div style="font-size:28px;margin-bottom:10px">📓</div>
+          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--t2);margin-bottom:5px">No questions selected yet</div>
+          <div style="font-size:12.5px;color:var(--tm)">Select a driver and pain points above — a notepad row will appear for each probing question.</div>
+        </div>
+        <div id="notepad-questions-notes" style="display:none"></div>
+      </div>
+
+      <!-- GENERAL FREE-FORM NOTES -->
+      <div class="notepad-freeform">
+        <div class="nff-hdr">
+          <div class="nff-title">General Notes</div>
+          <div class="nff-actions">
+            <button class="nff-btn" onclick="clearNotes()">🗑 Clear</button>
+            <button class="nff-btn" onclick="copyNotes()">📋 Copy notes</button>
+          </div>
+        </div>
+        <textarea class="nff-textarea" id="nff-textarea" placeholder="Free-form notes, observations, next steps…&#10;&#10;Tip: Use the mic button to speak and it'll transcribe here automatically."></textarea>
+      </div>
+
+      <!-- SEND TO PITCH BUILDER CTA -->
+      <div class="disc-to-pitch" id="disc-to-pitch">
+        <div class="dtp-left">
+          <div class="dtp-icon">🎯</div>
+          <div>
+            <div class="dtp-title">Ready to pitch?</div>
+            <div class="dtp-sub" id="dtp-sub">Select pain points above to activate the PAVE bridge.</div>
+          </div>
+        </div>
+        <button class="dtp-btn" id="dtp-btn" onclick="sendToPitchBuilder()" disabled>
+          Send to PAVE →
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="v-journey" style="display:none">
+    <div style="margin-bottom:18px">
+      <h2 style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--t1);margin-bottom:5px">Customer Journey Map</h2>
+      <p style="font-size:13.5px;color:var(--tm)">Click a stage to see all matched pain points, IPs, and pitch frameworks.</p>
+    </div>
+    <div class="jstages" id="jstages"></div>
+    <div class="cgrid" id="jcards"></div>
+  </div>
+
+  <div id="v-ips" style="display:none">
+    <div style="margin-bottom:22px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gb);margin-bottom:6px">IP Roster · 3-Tier Framework</div>
+        <h2 style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--t1);margin-bottom:5px">Service Pillars → IPs → Entry Points</h2>
+        <p style="font-size:13.5px;color:var(--tm)">Hierarchy: <strong>Service Pillar</strong> (dominant) → <strong>◆ IP Assets</strong> (core) → <strong>◇ Entry Points</strong> (lead-gen). Toggle status · Paste URL when live · Click any live card to open it.</p>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t2);font-weight:600"><span style="width:10px;height:10px;border-radius:50%;background:#3ab66a;display:inline-block"></span>Live</span>
+        <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t2);font-weight:600"><span style="width:10px;height:10px;border-radius:50%;background:#f5a623;display:inline-block"></span>In Progress</span>
+        <a href="https://www.atticus.ph/resources" target="_blank" rel="noopener" style="padding:7px 14px;background:var(--gb);color:#fff;border-radius:9px;font-size:12px;font-weight:700;text-decoration:none">↗ atticus.ph/resources</a>
+      </div>
+    </div>
+    <!-- LEGEND STRIP -->
+    <div class="ip-legend-strip">
+      <span class="ip-legend-strip-lbl">Priority:</span>
+      <span class="ip-leg"><span class="ip-leg-swatch" style="background:linear-gradient(135deg,#0d5c36,#2dba72)"></span>★ Service Pillar — highest</span>
+      <span style="color:var(--border)">|</span>
+      <span class="ip-leg"><span class="ip-leg-swatch" style="background:#e6f7f0;border:2px solid #1a8a5c"></span>◆ IP Asset — core</span>
+      <span style="color:var(--border)">|</span>
+      <span class="ip-leg"><span class="ip-leg-swatch" style="background:#f0fdf4;border:1.5px solid #c8e8d4"></span>◇ Entry Point — lead-gen</span>
+    </div>
+    <div class="ip-framework" id="ip-framework"></div>
+  </div>
+</main>
+
+<script>
+const D=[
+  {pain:"Empty seats stop everything.",driver:"TIME",stage:"DISCOVERY",mat:"Emerging",tier:"Readiness (free)",ip:"Offshore Maturity Matrix",impact:"Projects stay on track. A real process keeps seats filled and work moving.",gtm:"ERP consulting firm that just lost someone mid-project.",vp:"We fill the seat fast and make sure they stay.",o1:"Readiness (free) — Tools and templates to build a real hiring process.",o2:"Launch ($600/person) — We handle the full hire and onboarding.",o3:"Scale ($995/mo) — Retention system, career paths, guaranteed.",rec:"Readiness (free)",b1:"Seat filled fast. Project back on track. Client stays happy.",b2:"Real process in place so this never happens again."},
+  {pain:"New hires take 90 days to be useful.",driver:"TIME",stage:"ONBOARDING",mat:"Developing",tier:"Launch ($600/person)",ip:"Culture Guide + User Manual",impact:"New hires start doing real work faster. No more waiting 3 months.",gtm:"ERP firm whose new hires take too long to get up to speed.",vp:"We handle onboarding so new hires hit the ground running.",o1:"Readiness (free) — Templates and tools to build a real process.",o2:"Launch ($600/person) — We handle onboarding and setup.",o3:"Scale ($995/mo) — Full retention system with guarantee.",rec:"Launch ($600/person)",b1:"New hire starts doing real work in weeks, not months.",b2:"No more 3-month ramp up eating into project timelines."},
+  {pain:"Team keeps changing. Client notices. Client leaves.",driver:"TIME",stage:"RENEWALS/CS/UP",mat:"Mature",tier:"Scale (from $995/mo)",ip:"Leadership Readiness Tracker",impact:"Clients stop leaving. Consistent team means consistent delivery.",gtm:"ERP partner whose clients are losing confidence due to team instability.",vp:"We make the team stable so the client stays.",o1:"Readiness (free) — Tools to start building retention.",o2:"Launch ($600/person) — Process and onboarding in place.",o3:"Scale ($995/mo) — 90% retention guarantee. Money-back.",rec:"Scale ($995/mo)",b1:"Clients stop leaving.",b2:"Consistent team means consistent delivery and a business that can grow."},
+  {pain:"Founder spends hours interviewing the wrong people.",driver:"TIME",stage:"DISCOVERY",mat:"Emerging",tier:"Readiness (free)",ip:"Offshore Maturity Matrix",impact:"Founder gets their time back. Better candidates, fewer wasted interviews.",gtm:"Small ERP firm where the founder is stuck doing all the hiring.",vp:"We find the right people so the founder stops wasting time.",o1:"Readiness (free) — Tools to screen better before wasting time.",o2:"Launch ($600/person) — We handle the full recruitment process.",o3:"Scale ($995/mo) — Proactive talent pipeline so seats never stay empty.",rec:"Launch ($600/person)",b1:"Founder gets their time back.",b2:"Better candidates, fewer wasted interviews."},
+  {pain:"The best candidates are taken in 48 hours.",driver:"TIME",stage:"MQL/SQL",mat:"Emerging",tier:"Readiness (free)",ip:"Offshore Maturity Matrix",impact:"Stop losing good candidates. Faster process, better hires.",gtm:"ERP firm that keeps losing top talent to faster-moving competitors.",vp:"We move fast so good candidates don't slip away.",o1:"Readiness (free) — Process to move faster and stop losing people.",o2:"Launch ($600/person) — We run the search and close fast.",o3:"Scale ($995/mo) — Proactive bench of ready talent.",rec:"Launch ($600/person)",b1:"Stop losing the best candidates.",b2:"Faster process, better hires."},
+  {pain:"No person in the seat means no money coming in.",driver:"TIME",stage:"PROPOSAL",mat:"Developing",tier:"Launch ($600/person)",ip:"Profitability Calculator",impact:"Less time empty, more time billing. Revenue gap closes faster.",gtm:"ERP firm calculating the cost of an unfilled seat.",vp:"We fill seats fast so revenue doesn't stop.",o1:"Readiness (free) — Tools to see where the money is going.",o2:"Launch ($600/person) — Fills seats faster so the gap closes sooner.",o3:"Scale ($995/mo) — Proactive retention so seats rarely go empty.",rec:"Launch ($600/person)",b1:"Less time empty, more time billing.",b2:"Revenue gap closes faster."},
+  {pain:"Deal is closed. Team isn't ready. Client is waiting.",driver:"TIME",stage:"CLOSED",mat:"Developing",tier:"Launch ($600/person)",ip:"Offshore Maturity Matrix",impact:"Client gets started on time. No gap between close and kickoff.",gtm:"ERP firm that wins deals but can't staff them fast enough.",vp:"We make sure the team is ready before the deal even closes.",o1:"Readiness (free) — Plan for talent needs before the deal is won.",o2:"Launch ($600/person) — Team is ready when the deal closes.",o3:"Scale ($995/mo) — Proactive bench so delivery starts on day one.",rec:"Launch ($600/person)",b1:"Client gets started on time.",b2:"No gap between close and kickoff."},
+  {pain:"US and offshore teams miss each other all day.",driver:"TIME",stage:"ONBOARDING",mat:"Developing",tier:"Launch ($600/person)",ip:"User Manual",impact:"Work moves without waiting. No more stuff sitting idle.",gtm:"ERP firm where time zone gaps are killing productivity.",vp:"We set up the systems so teams hand off work without losing time.",o1:"Readiness (free) — Templates for how teams communicate across time zones.",o2:"Launch ($600/person) — We set up how teams talk and pass work.",o3:"Scale ($995/mo) — Ongoing management so the rhythm never breaks.",rec:"Launch ($600/person)",b1:"Work moves without waiting.",b2:"No more dead time between US and offshore."},
+  {pain:"Someone is checked out. Nobody knows until they quit.",driver:"TIME",stage:"RENEWALS/CS/UP",mat:"Developing",tier:"Scale (from $995/mo)",ip:"Leadership Readiness Tracker",impact:"Problems caught before someone quits. No more surprises.",gtm:"Long-term ERP client with invisible team health issues.",vp:"We track team health so problems get caught early.",o1:"Readiness (free) — Check-in templates to start the conversation.",o2:"Launch ($600/person) — Regular engagement built into how we manage.",o3:"Scale ($995/mo) — Proactive team health tracking. Guaranteed retention.",rec:"Scale ($995/mo)",b1:"Problems caught before someone quits.",b2:"No more surprises."},
+  {pain:"Can't grow since current team still needs too much attention.",driver:"TIME",stage:"PROPOSAL",mat:"Mature",tier:"Scale (from $995/mo)",ip:"Leadership Readiness Tracker",impact:"Growth stops being blocked. Stable team means room to bring more people in.",gtm:"ERP firm that can't scale because the team needs constant babysitting.",vp:"We make the team run itself so the founder can focus on growing.",o1:"Readiness (free) — Tools to start building self-sufficiency.",o2:"Launch ($600/person) — Process and structure so the team runs smoother.",o3:"Scale ($995/mo) — Leadership development so the team self-manages.",rec:"Scale ($995/mo)",b1:"Growth stops being blocked.",b2:"Stable team means room to bring more people in."},
+  {pain:"Someone quits. It costs money.",driver:"COST",stage:"DISCOVERY",mat:"Emerging",tier:"Readiness (free)",ip:"Profitability Calculator",impact:"They finally see the real number. Hard to keep ignoring it after that.",gtm:"ERP firm that doesn't realize how much turnover is costing them.",vp:"We stop the money from leaking. Show them the real number, then fix it.",o1:"Readiness (free) — Profitability Calculator to see what it's really costing.",o2:"Launch ($600/person) — We handle the admin so nothing slips.",o3:"Scale ($995/mo) — Retention guaranteed so the losses stop repeating.",rec:"Readiness (free)",b1:"They finally see the real number.",b2:"Doing nothing stops making sense once it's on paper."},
+  {pain:"They don't know why people keep leaving.",driver:"COST",stage:"MQL/SQL",mat:"Developing",tier:"Launch ($600/person)",ip:"Offshore Maturity Matrix",impact:"They stop being caught off guard. Now they know why people leave before it happens.",gtm:"ERP firm bleeding money but can't figure out why.",vp:"We figure out what went wrong and fix it before it happens again.",o1:"Readiness (free) — Tools to start tracking where money is going.",o2:"Launch ($600/person) — Atticus handles admin so nothing slips through.",o3:"Scale ($995/mo) — Full retention system with proactive tracking.",rec:"Launch ($600/person)",b1:"Stop being caught off guard.",b2:"Now they know why people leave before it happens."},
+  {pain:"Someone who stays 3 years makes way more money than someone who stays 1.",driver:"COST",stage:"PROPOSAL",mat:"Mature",tier:"Scale (from $995/mo)",ip:"Leadership Readiness Tracker",impact:"People stay. Work gets done. Business grows.",gtm:"ERP firm that keeps replacing people instead of retaining them.",vp:"We keep people longer so the business makes more money.",o1:"Readiness (free) — Tools to start building retention.",o2:"Launch ($600/person) — Structure and process so people stay longer.",o3:"Scale ($995/mo) — Career pathing and retention guarantee.",rec:"Scale ($995/mo)",b1:"People stay. Work gets done. Business grows.",b2:"Keeping people longer makes way more money than replacing them."},
+  {pain:"Recruiting and retraining is eating into what they make.",driver:"COST",stage:"DISCOVERY",mat:"Emerging",tier:"Readiness (free)",ip:"Profitability Calculator",impact:"Stops spending money replacing the same people. More of what they earn stays.",gtm:"ERP firm where turnover costs are eating into project margins.",vp:"We stop the replacement cycle so the money stays in the business.",o1:"Readiness (free) — Start tracking where the money is going.",o2:"Launch ($600/person) — We handle recruitment so costs go down.",o3:"Scale ($995/mo) — Retention guarantee so the cycle stops completely.",rec:"Launch ($600/person)",b1:"Stops spending money replacing the same people.",b2:"More of what they earn stays with them."},
+  {pain:"Can't take on more work because the team is a mess.",driver:"COST",stage:"PROPOSAL",mat:"Developing",tier:"Scale (from $995/mo)",ip:"Offshore Maturity Matrix",impact:"Can finally take on more without the fear. Stable team means room to grow.",gtm:"ERP firm that's turning down work because the team can't handle it.",vp:"We stabilize the team so they can say yes to more work.",o1:"Readiness (free) — Tools to see what needs fixing first.",o2:"Launch ($600/person) — Structure so the team runs more reliably.",o3:"Scale ($995/mo) — Stable team with guaranteed retention.",rec:"Scale ($995/mo)",b1:"Can finally take on more without the fear.",b2:"Stable team means room to grow."},
+  {pain:"Adding more people just means more headaches.",driver:"COST",stage:"MQL/SQL",mat:"Developing",tier:"Scale (from $995/mo)",ip:"Leadership Readiness Tracker",impact:"Growth doesn't have to mean chaos. Bigger team, same management work.",gtm:"ERP firm scared to grow because more people always means more problems.",vp:"We build a team that scales without adding management burden.",o1:"Readiness (free) — Tools to start building team structure.",o2:"Launch ($600/person) — Process so the team runs without constant oversight.",o3:"Scale ($995/mo) — Leadership development so the team self-manages.",rec:"Scale ($995/mo)",b1:"Growth doesn't have to mean chaos.",b2:"Bigger team, same amount of management work."},
+  {pain:"No idea what to pay offshore talent.",driver:"COST",stage:"DISCOVERY",mat:"Emerging",tier:"Readiness (free)",ip:"2026 Salary Guide",impact:"Stop losing people over pay. Right offer, right person, right time.",gtm:"ERP firm guessing on offshore salaries and losing people to better offers.",vp:"We give them real salary data so they stop losing people over pay.",o1:"Readiness (free) — 2026 Salary Guide with real market benchmarks.",o2:"Launch ($600/person) — We handle salary benchmarking as part of recruitment.",o3:"Scale ($995/mo) — Ongoing salary alignment so they stay competitive.",rec:"Readiness (free)",b1:"Stop losing people over pay.",b2:"Right offer, right person, right time."},
+  {pain:"Hidden fees make it impossible to budget.",driver:"COST",stage:"PROPOSAL",mat:"Emerging",tier:"Launch ($600/person)",ip:"Profitability Calculator",impact:"Budget actually makes sense. No more surprise costs showing up later.",gtm:"ERP firm that keeps getting hit with unexpected staffing costs.",vp:"We give them one clear price so they can actually plan.",o1:"Readiness (free) — Profitability Calculator to see the real all-in cost.",o2:"Launch ($600/person) — One clear price. No surprise fees.",o3:"Scale ($995/mo) — Flat rate subscription. No surprises ever.",rec:"Launch ($600/person)",b1:"Budget actually makes sense.",b2:"No more surprise costs showing up later."},
+  {pain:"US salaries are eating what they make on projects.",driver:"COST",stage:"DISCOVERY",mat:"Emerging",tier:"Readiness (free)",ip:"Profitability Calculator",impact:"Projects become profitable again. Right mix of onshore and offshore changes the math.",gtm:"ERP firm where onshore-only is killing project margins.",vp:"We show them what offshore actually saves so the numbers start working.",o1:"Readiness (free) — Tools to understand what offshore could save them.",o2:"Launch ($600/person) — We handle the offshore transition end to end.",o3:"Scale ($995/mo) — Full offshore team management with guaranteed outcomes.",rec:"Launch ($600/person)",b1:"Projects become profitable again.",b2:"Right mix of onshore and offshore changes the math."},
+  {pain:"Keeping the team secure gets more expensive over time.",driver:"COST",stage:"RENEWALS/CS/UP",mat:"Mature",tier:"Scale (from $995/mo)",ip:"User Manual",impact:"Security stays tight without extra effort. No more hoping people follow the rules.",gtm:"Long-term ERP client where security compliance is slipping.",vp:"We build security into how the team is managed so it doesn't cost more over time.",o1:"Readiness (free) — Security templates and protocols to start.",o2:"Launch ($600/person) — IT support and security policies built in.",o3:"Scale ($995/mo) — Ongoing compliance management built into the service.",rec:"Scale ($995/mo)",b1:"Security stays tight without extra effort.",b2:"No more hoping people are following the rules."},
+  {pain:"Offshore team feels like outsiders.",driver:"EXPERIENCE",stage:"ONBOARDING",mat:"Emerging",tier:"Readiness (free)",ip:"Culture Guide",impact:"Team starts caring about the work. People who feel included do more.",gtm:"ERP firm whose offshore team feels disconnected and unmotivated.",vp:"We make the offshore team feel like part of the company.",o1:"Readiness (free) — Culture Guide and templates to build real connection.",o2:"Launch ($600/person) — Onboarding and setup so new hires feel part of the team.",o3:"Scale ($995/mo) — Ongoing engagement and leadership development.",rec:"Launch ($600/person)",b1:"Team starts caring about the work.",b2:"People who feel included do more."},
+  {pain:"The work comes out different every time.",driver:"EXPERIENCE",stage:"RENEWALS/CS/UP",mat:"Developing",tier:"Launch ($600/person)",ip:"User Manual",impact:"Client stays and keeps trusting. Consistent work means a relationship that lasts.",gtm:"ERP firm where inconsistent delivery is damaging the client relationship.",vp:"We put a real process in place so quality doesn't depend on who's doing the work.",o1:"Readiness (free) — Templates to start standardizing how work gets done.",o2:"Launch ($600/person) — User Manual and process so everyone works the same way.",o3:"Scale ($995/mo) — Full quality management with ongoing oversight.",rec:"Launch ($600/person)",b1:"Client stays and keeps trusting.",b2:"Consistent work means a relationship that lasts."},
+  {pain:"Only talks to the team when something breaks.",driver:"EXPERIENCE",stage:"DISCOVERY",mat:"Emerging",tier:"Scale (from $995/mo)",ip:"Offshore Leadership Readiness Tracker",impact:"Feels like a real partnership. Team is involved, not just on call.",gtm:"ERP firm whose client relationship is reactive and surface-level.",vp:"We build regular connection so it feels like a real partnership, not a repair service.",o1:"Readiness (free) — Check-in templates to start the conversation.",o2:"Launch ($600/person) — Regular engagement built into how we manage.",o3:"Scale ($995/mo) — Proactive team health tracking and leadership development.",rec:"Scale ($995/mo)",b1:"Feels like a real partnership.",b2:"Team is involved, not just on call."},
+  {pain:"Client has no idea what's happening with their hiring.",driver:"EXPERIENCE",stage:"PROPOSAL",mat:"Emerging",tier:"Readiness (free)",ip:"Offshore Maturity Matrix",impact:"Client feels in control. No more wondering what's going on behind the scenes.",gtm:"ERP firm whose clients feel out of the loop during hiring.",vp:"We keep clients in the loop so they always know where things stand.",o1:"Readiness (free) — Clear process so clients are always updated.",o2:"Launch ($600/person) — Dedicated support and regular hiring updates.",o3:"Scale ($995/mo) — Client portal and proactive communication built in.",rec:"Launch ($600/person)",b1:"Client feels in control.",b2:"No more wondering what's going on behind the scenes."},
+  {pain:"Good people leave because they don't see a future there.",driver:"EXPERIENCE",stage:"ONBOARDING",mat:"Developing",tier:"Scale (from $995/mo)",ip:"Leadership Readiness Tracker",impact:"Good people stick around. A clear future means less reason to leave.",gtm:"ERP firm losing top talent because there's no career growth.",vp:"We build career paths so good people see a reason to stay.",o1:"Readiness (free) — Tools to start thinking about team development.",o2:"Launch ($600/person) — Goal setting and performance management in place.",o3:"Scale ($995/mo) — Career pathing and leadership development built in.",rec:"Scale ($995/mo)",b1:"Good people stick around.",b2:"A clear future means less reason to leave."},
+  {pain:"Offshore team doesn't really understand the client's business.",driver:"EXPERIENCE",stage:"ONBOARDING",mat:"Emerging",tier:"Launch ($600/person)",ip:"Culture Guide",impact:"Team adds real value, not just output. They start contributing ideas, not just finishing tasks.",gtm:"ERP firm where the offshore team does tasks but misses the bigger picture.",vp:"We make sure the team understands the client's world, not just the task.",o1:"Readiness (free) — Culture Guide to give the team context.",o2:"Launch ($600/person) — We onboard the team into the client's business.",o3:"Scale ($995/mo) — Ongoing business context built into team management.",rec:"Launch ($600/person)",b1:"Team adds real value, not just output.",b2:"They start contributing ideas, not just finishing tasks."},
+  {pain:"Client wants ideas. Team just waits to be told what to do.",driver:"EXPERIENCE",stage:"RENEWALS/CS/UP",mat:"Developing",tier:"Scale (from $995/mo)",ip:"Leadership Readiness Tracker",impact:"Team becomes an asset, not just a resource. Client sees real value in keeping them.",gtm:"Long-term ERP client whose offshore team isn't stepping up.",vp:"We develop the team into problem-solvers, not just order-takers.",o1:"Readiness (free) — Tools to start building team initiative.",o2:"Launch ($600/person) — Performance management so expectations are clear.",o3:"Scale ($995/mo) — Leadership development so the team starts thinking ahead.",rec:"Scale ($995/mo)",b1:"Team becomes an asset, not just a resource.",b2:"Client sees real value in keeping them."},
+  {pain:"Bad interview experience makes the company look bad.",driver:"EXPERIENCE",stage:"DISCOVERY",mat:"Emerging",tier:"Readiness (free)",ip:"Offshore Maturity Matrix",impact:"Company looks professional from the first conversation. Good candidates take them seriously.",gtm:"ERP firm whose hiring process is unprofessional and hurting their brand.",vp:"We make the hiring process professional so the company shows up well.",o1:"Readiness (free) — Templates and guides to make hiring professional.",o2:"Launch ($600/person) — We run the hiring process end to end.",o3:"Scale ($995/mo) — Full recruitment management with brand standards built in.",rec:"Readiness (free)",b1:"Company looks professional from the first conversation.",b2:"Good candidates take them seriously."},
+  {pain:"Offshore team struggles to talk directly to clients.",driver:"EXPERIENCE",stage:"ONBOARDING",mat:"Developing",tier:"Launch ($600/person)",ip:"Culture Guide + User Manual",impact:"Client can work directly with the offshore team. Less go-between, faster work.",gtm:"ERP firm where communication gaps are holding the offshore team back.",vp:"We prep the team for client-facing work so the relationship strengthens.",o1:"Readiness (free) — Communication templates to start the process.",o2:"Launch ($600/person) — We prep the team for client-facing communication.",o3:"Scale ($995/mo) — Ongoing communication coaching built into management.",rec:"Launch ($600/person)",b1:"Client can work directly with the offshore team.",b2:"Less go-between, faster work, stronger relationship."},
+  {pain:"Client can't see how the team is doing until something goes wrong.",driver:"EXPERIENCE",stage:"RENEWALS/CS/UP",mat:"Mature",tier:"Scale (from $995/mo)",ip:"Leadership Readiness Tracker",impact:"Client always knows what's going on. No more finding out too late.",gtm:"Long-term ERP client who wants more visibility into their team.",vp:"We give the client real-time visibility so nothing sneaks up on them.",o1:"Readiness (free) — Regular check-in templates to start.",o2:"Launch ($600/person) — Monthly reporting and updates built in.",o3:"Scale ($995/mo) — Real-time team health tracking and client portal.",rec:"Scale ($995/mo)",b1:"Client always knows what's going on.",b2:"No more finding out too late."}
+];
+
+// IP ROSTER DATA — status: 'live' or 'bld', nonIp: true = not a real IP
+const IPs_pillars = [
+  {
+    pillar:'Recruiting & Placement',
+    key:'rc',
+    accent:'#1a8a5c',
+    accentLight:'#e6f7f0',
+    accentMid:'#2dba72',
+    items:[
+      {name:'Core Recruitment Proven Process',desc:'Our core recruitment methodology for ERP and accounting firms. Structured, repeatable, fast.',status:'live',nonIp:true,type:'process',link:null},
+      {name:'2026 Salary Guide (ERP)',desc:'Real market data on what offshore ERP talent costs right now. Stops the guessing on what to offer.',status:'live',type:'entry',link:'https://www.atticus.ph/resources/2026-erp-salary-guide'},
+      {name:'2026 Salary Guide (Accounting)',desc:'Offshore accounting salary benchmarks for 2026. Right offer, right person, right time.',status:'live',type:'entry',link:'https://www.atticus.ph/resources/2026-accounting-salary-guide'},
+      {name:'Profitability Calculator (ERP)',desc:'Shows the real cost of an empty ERP seat. Hard to ignore once they see the number.',status:'live',type:'entry',link:'https://www.atticus.ph/resources/erp-profitability-calculator'},
+      {name:'Profitability Calculator (Accounting)',desc:'Same calculator, built for accounting roles. Projects become profitable again.',status:'live',type:'entry',link:'https://www.atticus.ph/resources/accounting-project-profitability-calculator'},
+    ]
+  },
+  {
+    pillar:'Retention & Management',
+    key:'rt',
+    accent:'#b86a00',
+    accentLight:'#fff4e6',
+    accentMid:'#f5a623',
+    items:[
+      {name:'Kapwa / Culture Guide',desc:'Gives the offshore team something to belong to. Everyone works the same way, every time.',status:'live',type:'ip',link:'https://www.atticus.ph/resources/kapwa-a-guide-to-partnership-with-your-filipino-team'},
+      {name:'ERR / User Manual',desc:'Tells the team exactly how to hand off work so nothing gets stuck.',status:'live',type:'ip',link:null},
+      {name:"Manager's Toolkit",desc:'The onboarding bible. Helps offshore hires hit the ground running from day one.',status:'bld',type:'ip',link:null},
+      {name:'Offshore Readiness Assessment',desc:'Shows exactly where the gaps are before the next person walks out.',status:'live',type:'entry',link:null},
+      {name:'Maturity Matrix',desc:'Tracks offshore team maturity across key dimensions. Diagnoses before it escalates.',status:'live',type:'entry',link:null},
+    ]
+  },
+  {
+    pillar:'Training & Upskilling',
+    key:'tr',
+    accent:'#3a28a0',
+    accentLight:'#eeecff',
+    accentMid:'#6b6bdb',
+    items:[
+      {name:'Leadership Development Program',desc:'Structured program to develop offshore leaders who self-manage and drive delivery.',status:'bld',type:'ip',link:null},
+      {name:'Technical Upskilling Program',desc:'Role-based curricula and AI-assisted workflows that protect continuity.',status:'bld',type:'ip',link:null},
+      {name:'Offshore Leadership Tracker',desc:'Flags problems before they turn into resignations. Tracks who\'s ready to step up.',status:'bld',type:'entry',link:null},
+      {name:'Offshore Leadership Assessment',desc:'Baseline assessment to evaluate leadership readiness across the offshore team.',status:'bld',type:'entry',link:null},
+      {name:'Capability Benchmarking',desc:'Structured assessment of team capability gaps to inform upskilling roadmap.',status:'bld',type:'entry',link:null},
+    ]
+  }
+];
+
+// ===================== BOARD + MINDMAP ENGINE =====================
+let boardQuery = '';
+let activeRowIdx = null;
+
+const DRIVER_LABELS = {TIME:'⏱ Time',COST:'💰 Cost',EXPERIENCE:'✨ Experience'};
+const DRIVER_EMOJI  = {TIME:'⏱',COST:'💰',EXPERIENCE:'✨'};
+
+function pbBoardSearch(val) {
+  boardQuery = val.trim();
+  document.getElementById('pb-search-clear-btn').style.display = boardQuery ? 'flex' : 'none';
+  // Highlight matching hints
+  document.querySelectorAll('.pb-hint').forEach(h => {
+    h.classList.toggle('active-hint', boardQuery && h.textContent.toLowerCase().includes(boardQuery.toLowerCase()));
+  });
+  renderBoard();
+  if(boardQuery.length >= 2) showMindmap(boardQuery); else closeMindmap();
+}
+
+function pbApplyHint(val) {
+  document.getElementById('pb-main-search').value = val;
+  pbBoardSearch(val);
+}
+
+function pbClearSearch() {
+  document.getElementById('pb-main-search').value = '';
+  pbBoardSearch('');
+  closeMindmap();
+}
+
+function getBoardFiltered() {
+  if(!boardQuery) return D;
+  const q = boardQuery.toLowerCase();
+  return D.filter(d =>
+    d.pain.toLowerCase().includes(q) ||
+    d.driver.toLowerCase().includes(q) ||
+    d.mat.toLowerCase().includes(q) ||
+    d.stage.toLowerCase().includes(q) ||
+    d.ip.toLowerCase().includes(q) ||
+    d.rec.toLowerCase().includes(q) ||
+    d.impact.toLowerCase().includes(q) ||
+    d.gtm.toLowerCase().includes(q) ||
+    d.vp.toLowerCase().includes(q) ||
+    d.tier.toLowerCase().includes(q)
+  );
+}
+
+function renderBoard() {
+  const filtered = getBoardFiltered();
+  const body = document.getElementById('board-body');
+  const countBar = document.getElementById('board-count-bar');
+  if(countBar) countBar.innerHTML = `<div class="board-cnt">Showing <strong>${filtered.length}</strong> of ${D.length} scenarios${boardQuery?' for <em style="color:var(--gb)">"'+boardQuery+'"</em>':''}</div>${boardQuery?'<button class="board-reset" onclick="pbClearSearch()">Clear filter</button>':''}`;
+
+  // Group by driver
+  const groups = {};
+  filtered.forEach((d,i) => {
+    const key = d.driver;
+    if(!groups[key]) groups[key] = [];
+    groups[key].push({...d, _oi: D.indexOf(d)});
+  });
+
+  const driverOrder = ['TIME','COST','EXPERIENCE'];
+  let html = '';
+  driverOrder.forEach(drv => {
+    if(!groups[drv]) return;
+    const rows = groups[drv];
+    html += `<div class="board-group-hdr">
+      <div class="bgh-driver"><span class="bgh-label ${drv}">${DRIVER_EMOJI[drv]} ${drv==='EXPERIENCE'?'EXPERIENCE':drv}</span><span class="bgh-count">${rows.length} scenarios</span></div>
+      <div class="bgh-line"></div>
+    </div>`;
+    rows.forEach((d,ri) => {
+      const mr = d.mat;
+      const isRec = d.rec.includes('Scale') ? 'bc-tier-r' : (d.rec.includes('Launch') ? 'bc-tier-l' : 'bc-tier-l');
+      html += `<div class="board-row dr-${d.driver}${activeRowIdx===d._oi?' active-row':''}" onclick="openDetail(${d._oi})" data-idx="${d._oi}">
+        <div class="board-cell"><span class="bc-driver ${d.driver}">${DRIVER_EMOJI[d.driver]}</span></div>
+        <div class="board-cell"><span class="bc-mat ${mr}">${mr}</span></div>
+        <div class="board-cell"><span class="bc-stage">${d.stage}</span></div>
+        <div class="board-cell"><span class="bc-pain">${d.pain}</span></div>
+        <div class="board-cell"><span class="bc-ip">🎯 ${d.ip}</span></div>
+        <div class="board-cell"><span class="${isRec}">✓ ${d.rec}</span></div>
+        <div class="board-cell"><span class="bc-impact">${d.impact}</span></div>
+      </div>`;
+    });
+  });
+  body.innerHTML = html || `<div style="padding:48px 28px;text-align:center;color:var(--tm)"><div style="font-size:32px;margin-bottom:12px">🔍</div><div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--t2);margin-bottom:6px">No matches</div><div style="font-size:13px">Try a different keyword or <button onclick="pbClearSearch()" style="background:none;border:none;color:var(--gb);font-weight:700;cursor:pointer;font-size:13px">clear the filter</button></div></div>`;
+}
+
+// ---- DETAIL PANEL ----
+function openDetail(idx) {
+  activeRowIdx = idx;
+  const d = D[idx];
+  const panel = document.getElementById('detail-panel');
+  document.getElementById('dp-eyebrow').textContent = `${DRIVER_LABELS[d.driver]} · ${d.mat} · ${d.stage}`;
+  document.getElementById('dp-title').textContent = d.pain;
+  document.getElementById('dp-gtm').textContent = d.gtm;
+  document.getElementById('dp-vp').textContent = d.vp;
+  document.getElementById('dp-b1').textContent = d.b1;
+  document.getElementById('dp-b2').textContent = d.b2;
+  const opts = [
+    {label:'Option 1 — Readiness (free)', desc: d.o1, key:'Readiness'},
+    {label:'Option 2 — Launch ($600/person)', desc: d.o2, key:'Launch'},
+    {label:'Option 3 — Scale ($995/mo)', desc: d.o3, key:'Scale'},
+  ];
+  document.getElementById('dp-opts').innerHTML = opts.map(o => `
+    <div class="detail-opt ${d.rec.includes(o.key)?'is-rec':''}">
+      ${d.rec.includes(o.key)?'<span class="detail-opt-rec">Best Fit</span>':''}
+      <div class="detail-opt-name">${o.label}</div>
+      <div>${o.desc.replace(/^[^—]*— /,'')}</div>
+    </div>`).join('');
+  panel.classList.add('open');
+  renderBoard(); // update active highlight
+}
+
+function closeDetail() {
+  activeRowIdx = null;
+  document.getElementById('detail-panel').classList.remove('open');
+  renderBoard();
+}
+
+// Close detail if clicking outside
+document.addEventListener('click', function(e) {
+  const panel = document.getElementById('detail-panel');
+  const boardBody = document.getElementById('board-body');
+  if(panel && panel.classList.contains('open') && !panel.contains(e.target) && !boardBody.contains(e.target)) {
+    closeDetail();
+  }
+});
+
+// ---- MINDMAP ENGINE ----
+function showMindmap(query) {
+  const filtered = getBoardFiltered();
+  if(!filtered.length) { closeMindmap(); return; }
+
+  const overlay = document.getElementById('mindmap-overlay');
+  const svg = document.getElementById('mindmap-svg');
+  const nodesEl = document.getElementById('mindmap-nodes');
+  const mmTitle = document.getElementById('mm-title');
+  const mmSub = document.getElementById('mm-subtitle');
+
+  overlay.style.display = 'block';
+  mmTitle.textContent = `"${query}" — Connection Map`;
+  mmSub.textContent = `${filtered.length} scenario${filtered.length>1?'s':''} connected · hover nodes to explore`;
+
+  // Gather unique values
+  const drivers = [...new Set(filtered.map(d=>d.driver))];
+  const mats = [...new Set(filtered.map(d=>d.mat))];
+  const stages = [...new Set(filtered.map(d=>d.stage))];
+  const ips = [...new Set(filtered.map(d=>d.ip))];
+  const pains = [...new Set(filtered.map(d=>d.pain))];
+  const tiers = [...new Set(filtered.map(d=>d.rec))];
+
+  const W = overlay.offsetWidth || 1400;
+  const H = 320;
+  const cx = W / 2, cy = H / 2;
+
+  // Node positions — radial from center
+  const nodes = [];
+  const lines = [];
+
+  // CENTER NODE
+  nodes.push({id:'center', x:cx, y:cy, cls:'center', label: query.length > 20 ? query.slice(0,18)+'…' : query, type:'center'});
+
+  // DRIVER nodes (inner ring)
+  drivers.forEach((drv, i) => {
+    const angle = (i / drivers.length) * Math.PI * 2 - Math.PI/2;
+    const r = Math.min(W*0.14, 120);
+    const x = cx + Math.cos(angle)*r;
+    const y = cy + Math.sin(angle)*r;
+    nodes.push({id:'drv-'+drv, x, y, cls:'driver-'+drv, label:DRIVER_EMOJI[drv]+' '+drv, type:'driver', drv});
+    lines.push({from:'center', to:'drv-'+drv, cls:drv});
+  });
+
+  // MATURITY nodes
+  mats.forEach((mat, i) => {
+    const angle = (i / mats.length) * Math.PI * 2 - Math.PI * 0.7;
+    const r = Math.min(W*0.24, 200);
+    const x = cx + Math.cos(angle)*r;
+    const y = cy + Math.sin(angle)*r*0.7;
+    nodes.push({id:'mat-'+mat, x, y, cls:'mat-node', label:mat, type:'mat'});
+    // connect to relevant drivers
+    const matDrivers = [...new Set(filtered.filter(d=>d.mat===mat).map(d=>d.driver))];
+    matDrivers.forEach(drv => lines.push({from:'drv-'+drv, to:'mat-'+mat, cls:drv}));
+  });
+
+  // IP nodes (outer ring)
+  ips.forEach((ip, i) => {
+    const angle = (i / ips.length) * Math.PI * 2 - Math.PI * 0.2;
+    const r = Math.min(W*0.34, 280);
+    const x = Math.max(90, Math.min(W-90, cx + Math.cos(angle)*r));
+    const y = Math.max(40, Math.min(H-40, cy + Math.sin(angle)*r*0.65));
+    nodes.push({id:'ip-'+i, x, y, cls:'ip-node', label:'🎯 '+ip, type:'ip'});
+    const ipDrivers = [...new Set(filtered.filter(d=>d.ip===ip).map(d=>d.driver))];
+    ipDrivers.forEach(drv => lines.push({from:'drv-'+drv, to:'ip-'+i, cls:drv}));
+  });
+
+  // TIER nodes (bottom anchors)
+  tiers.forEach((tier, i) => {
+    const x = (W/(tiers.length+1)) * (i+1);
+    const y = H - 38;
+    const shortTier = tier.includes('Readiness') ? 'Readiness (free)' : tier.includes('Launch') ? 'Launch $600' : 'Scale $995/mo';
+    nodes.push({id:'tier-'+i, x, y, cls:'tier-node', label:shortTier, type:'tier'});
+    const tierDrivers = [...new Set(filtered.filter(d=>d.rec===tier).map(d=>d.driver))];
+    tierDrivers.forEach(drv => lines.push({from:'drv-'+drv, to:'tier-'+i, cls:'active'}));
+  });
+
+  // Build nodeMap
+  const nodeMap = {};
+  nodes.forEach(n => { nodeMap[n.id] = n; });
+
+  // Render SVG lines
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.innerHTML = lines.map(l => {
+    const a = nodeMap[l.from], b = nodeMap[l.to];
+    if(!a||!b) return '';
+    const mx = (a.x+b.x)/2, my = (a.y+b.y)/2 - 24;
+    return `<path class="mm-line ${l.cls}" d="M${a.x},${a.y} Q${mx},${my} ${b.x},${b.y}" stroke-dasharray="${l.cls==='active'?'none':'4,3'}" opacity="${l.cls==='active'?.9:.5}"/>`;
+  }).join('');
+
+  // Render HTML nodes
+  nodesEl.innerHTML = nodes.map(n => `
+    <div class="mm-node ${n.cls}" style="left:${n.x}px;top:${n.y}px" title="${n.label}">
+      <div class="mm-node-inner">${n.label}</div>
+    </div>`).join('');
+}
+
+function closeMindmap() {
+  const ov = document.getElementById('mindmap-overlay');
+  if(ov) ov.style.display = 'none';
+}
+
+// ---- LEGACY COMPAT (for other views that still call these) ----
+function filterD(d){} function filterS(s){} function filterQ(v){} function af(){renderBoard();}
+
+// ---- INIT BOARD ----
+function initBoard() {
+  // Insert count bar before board
+  const bw = document.getElementById('board-wrap');
+  const countBar = document.createElement('div');
+  countBar.id = 'board-count-bar';
+  countBar.className = 'board-count-bar';
+  countBar.style.cssText = 'padding:10px 0 8px;';
+  bw.parentNode.insertBefore(countBar, bw);
+  renderBoard();
+}
+
+
+
+function switchView(v){
+  ['ips','playbook','discover','pitch','journey'].forEach(x=>{const el=document.getElementById('v-'+x);if(el)el.style.display='none';});
+  const el=document.getElementById('v-'+v);if(el)el.style.display='block';
+  document.querySelectorAll('.ntab').forEach((t,i)=>t.classList.toggle('active',['ips','playbook','discover','pitch','journey'][i]===v));
+  if(v==='journey')rjv();
+  if(v==='ips')renderIpFramework();
+}
+
+function buildDisc(){
+  const driver=document.getElementById('dd').value;
+  const stage=document.getElementById('ds').value;
+  const ps=document.getElementById('dp');
+  if(driver){
+    const opts=D.filter(d=>d.driver===driver&&(!stage||d.stage===stage));
+    const uniq=[...new Set(opts.map(d=>d.pain))];
+    ps.innerHTML='<option value="">Select pain point…</option>'+uniq.map(p=>`<option value="${p}">${p}</option>`).join('');
+  }
+  const pain=ps.value;
+  if(!driver||!pain){document.getElementById('dres').classList.remove('show');return;}
+  const m=D.find(d=>d.driver===driver&&d.pain===pain&&(!stage||d.stage===stage))||D.find(d=>d.driver===driver&&d.pain===pain);
+  if(!m)return;
+  document.getElementById('rpain').textContent=m.pain;
+  document.getElementById('rtags').innerHTML=`<span class="rtag">${m.driver}</span><span class="rtag">${m.stage}</span><span class="rtag">${m.mat}</span><span class="rtag">🎯 ${m.ip}</span>`;
+  document.getElementById('rgtm').textContent=m.gtm;
+  document.getElementById('rvp').textContent=m.vp;
+  const s1=`Let me guess. You're dealing with: "<em>${m.pain}</em>" — am I reading that right? (listen) We fix exactly that. <em>${m.rec}</em> is what I'd go with — it means ${m.b1.toLowerCase()} and ${m.b2.toLowerCase()}.`;
+  const s2=`Be honest with me — what's actually going wrong right now? (listen) That's fixable. Here's our approach: three options. <em>${m.rec}</em> is the move here. It stops the bleeding, ${m.b1.toLowerCase()}, and gets you ${m.b2.toLowerCase()}. Simple.`;
+  document.getElementById('rs1').innerHTML=s1;
+  document.getElementById('rs2').innerHTML=s2;
+  document.getElementById('ro3').innerHTML=`
+    <div class="opt ${m.rec.includes('Readiness')?'ir':''}">${m.rec.includes('Readiness')?'<span class="orl">Best Fit</span>':''}<div class="oname">Readiness (free)</div><div class="odsc">${m.o1.replace(/^Readiness.*?— /,'')}</div></div>
+    <div class="opt ${m.rec.includes('Launch')?'ir':''}">${m.rec.includes('Launch')?'<span class="orl">Best Fit</span>':''}<div class="oname">Launch ($600/person)</div><div class="odsc">${m.o2.replace(/^Launch.*?— /,'')}</div></div>
+    <div class="opt ${m.rec.includes('Scale')?'ir':''}">${m.rec.includes('Scale')?'<span class="orl">Best Fit</span>':''}<div class="oname">Scale ($995/mo)</div><div class="odsc">${m.o3.replace(/^Scale.*?— /,'')}</div></div>`;
+  document.getElementById('rbr').innerHTML=`<div class="bpill"><span class="ico">✅</span><span class="btxt">${m.b1}</span></div><div class="bpill"><span class="ico">🚀</span><span class="btxt">${m.b2}</span></div>`;
+  document.getElementById('dres').classList.add('show');
+}
+
+const stages=['MQL/SQL','DISCOVERY','PROPOSAL','CLOSED','ONBOARDING','RENEWALS/CS/UP'];
+let ajs='DISCOVERY';
+
+function rjv(){
+  document.getElementById('jstages').innerHTML=stages.map(s=>{
+    const cnt=D.filter(d=>d.stage===s).length;
+    return `<div class="jstage ${s===ajs?'active':''}" onclick="sjs('${s}')"><div class="jsname">${s==='RENEWALS/CS/UP'?'Renewals':s}</div><div class="jscnt">${cnt} scenarios</div></div>`;
+  }).join('');
+  // Render as board rows
+  const data = D.filter(d=>d.stage===ajs);
+  const el = document.getElementById('jcards');
+  if(!data.length){el.innerHTML='<div class="empty" style="grid-column:1/-1"><div class="ico">🔍</div><h3>No scenarios</h3></div>';return;}
+  el.innerHTML = `<div style="overflow-x:auto">
+    <div style="display:grid;grid-template-columns:110px 110px 1fr 160px 160px 1fr;border:1.5px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;min-width:700px">
+      <div style="padding:10px 14px;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--tm);background:var(--gu);border-bottom:1px solid var(--border)">Driver</div>
+      <div style="padding:10px 14px;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--tm);background:var(--gu);border-bottom:1px solid var(--border);border-left:1px solid var(--border)">Maturity</div>
+      <div style="padding:10px 14px;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--tm);background:var(--gu);border-bottom:1px solid var(--border);border-left:1px solid var(--border)">Pain Point</div>
+      <div style="padding:10px 14px;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--tm);background:var(--gu);border-bottom:1px solid var(--border);border-left:1px solid var(--border)">IP</div>
+      <div style="padding:10px 14px;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--tm);background:var(--gu);border-bottom:1px solid var(--border);border-left:1px solid var(--border)">Recommendation</div>
+      <div style="padding:10px 14px;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--tm);background:var(--gu);border-bottom:1px solid var(--border);border-left:1px solid var(--border)">Business Impact</div>
+      ${data.map(d=>`
+        <div style="padding:11px 14px;border-top:1px solid var(--border);display:flex;align-items:center"><span class="bc-driver ${d.driver}">${DRIVER_EMOJI[d.driver]} ${d.driver==='EXPERIENCE'?'EXP':d.driver}</span></div>
+        <div style="padding:11px 14px;border-top:1px solid var(--border);border-left:1px solid var(--border)"><span class="bc-mat ${d.mat}">${d.mat}</span></div>
+        <div style="padding:11px 14px;border-top:1px solid var(--border);border-left:1px solid var(--border);font-size:12.5px;font-weight:600;color:var(--t1)">${d.pain}</div>
+        <div style="padding:11px 14px;border-top:1px solid var(--border);border-left:1px solid var(--border)"><span class="bc-ip">🎯 ${d.ip}</span></div>
+        <div style="padding:11px 14px;border-top:1px solid var(--border);border-left:1px solid var(--border)"><span class="bc-tier-l">✓ ${d.rec}</span></div>
+        <div style="padding:11px 14px;border-top:1px solid var(--border);border-left:1px solid var(--border);font-size:11.5px;color:var(--t2);font-style:italic">${d.impact}</div>
+      `).join('')}
+    </div>
+  </div>`;
+}
+
+function sjs(s){ajs=s;rjv();}
+
+// ---- IP ROSTER STATUS (editable in memory) ----
+// Build a mutable status map keyed by name
+const ipStatusMap = {};
+IPs_pillars.forEach(p => p.items.forEach(ip => { ipStatusMap[ip.name] = ip.status; }));
+
+function ipCardHtml(ip, pillarKey, idx) {
+  const status = ipStatusMap[ip.name];
+  const isLive = status === 'live';
+  const cardClass = ip.nonIp ? 'non-ip' : (isLive ? 'live-card' : 'bld-card');
+  const inner = `
+    <div class="ipdrop-status-dot ${status}"></div>
+    <div class="ipdrop-name">${ip.name}${ip.nonIp?' <span style="font-size:9px;color:var(--tm);font-weight:400">(non-IP)</span>':''}</div>
+    <div class="ipdrop-desc">${ip.desc}</div>
+    ${isLive && ip.link ? `<a class="ipdrop-link-badge" href="${ip.link}" target="_blank" rel="noopener">↗ View on atticus.ph/resources</a>` : ''}
+    ${!ip.nonIp ? `<div class="ipdrop-edit-row">
+      <span class="ipdrop-edit-lbl">Status:</span>
+      <div class="ipdrop-toggle">
+        <button class="toggle-btn ${isLive?'live-sel':''}" onclick="setIpStatus('${ip.name.replace(/'/g,"\\'")}',event,'live')">● Live</button>
+        <button class="toggle-btn ${!isLive?'bld-sel':''}" onclick="setIpStatus('${ip.name.replace(/'/g,"\\'")}',event,'bld')">◌ In Progress</button>
+      </div>
+    </div>` : ''}`;
+  if(isLive && ip.link && !ip.nonIp) {
+    return `<div class="ipdrop-card ${cardClass}" onclick="window.open('${ip.link}','_blank')">${inner}</div>`;
+  }
+  return `<div class="ipdrop-card ${cardClass}">${inner}</div>`;
+}
+
+function renderIpDropdown() {
+  const el = document.getElementById('ip-mega');
+  const liveCount = Object.values(ipStatusMap).filter(s=>s==='live').length;
+  const bldCount = Object.values(ipStatusMap).filter(s=>s==='bld').length;
+  el.innerHTML = `
+    <div class="ip-mega-inner">
+      <div class="ip-mega-hdr">
+        <div>
+          <div class="ip-mega-hdr-title">Atticus' IP Roster</div>
+          <div class="ip-mega-hdr-sub">Click any Live IP to view it on atticus.ph · Toggle status to update</div>
+        </div>
+        <div class="ip-mega-legend">
+          <span class="ip-legend-item"><span class="ip-legend-dot live"></span>${liveCount} Live</span>
+          <span class="ip-legend-item"><span class="ip-legend-dot bld"></span>${bldCount} In Progress</span>
+        </div>
+      </div>
+      <div class="ip-pillars-row">
+        ${IPs_pillars.map(p=>`
+          <div class="ip-pillar-col">
+            <div class="ip-pillar-hdr"><span class="ip-pillar-dot ${p.key}"></span><span class="ip-pillar-name">${p.pillar}</span></div>
+            <div class="ip-cards-col">
+              ${p.items.map((ip,i)=>ipCardHtml(ip,p.key,i)).join('')}
+            </div>
+          </div>`).join('')}
+      </div>
+      <div class="ip-mega-footer">
+        <span class="ip-mega-footer-txt">Status changes save for this session only · ${liveCount} IPs live on website</span>
+        <a class="ip-mega-footer-link" href="https://www.atticus.ph/resources" target="_blank" rel="noopener">↗ Open atticus.ph/resources</a>
+      </div>
+    </div>`;
+}
+
+function setIpStatus(name, e, status) {
+  e.stopPropagation();
+  ipStatusMap[name] = status;
+  // Update link in IPs_pillars data
+  IPs_pillars.forEach(p => p.items.forEach(ip => {
+    if(ip.name === name) {
+      ip.status = status;
+      if(status === 'live' && !ip.link) ip.link = 'https://www.atticus.ph/resources';
+    }
+  }));
+  renderIpDropdown();
+}
+
+function toggleIpDropdown() {
+  const dd = document.getElementById('ip-mega');
+  const btn = document.getElementById('ip-dd-trigger');
+  const isOpen = dd.style.display !== 'none';
+  if(isOpen) {
+    dd.style.display = 'none';
+    btn.classList.remove('active');
+  } else {
+    renderIpDropdown();
+    dd.style.display = 'block';
+    btn.classList.add('active');
+  }
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(e) {
+  const wrap = document.getElementById('ip-dd-wrap');
+  if(wrap && !wrap.contains(e.target)) {
+    document.getElementById('ip-mega').style.display = 'none';
+    document.getElementById('ip-dd-trigger').classList.remove('active');
+  }
+});
+
+function ripv() {
+  // IP Roster page view (framework diagram style)
+  const grid = document.getElementById('ipgrid');
+  grid.innerHTML = IPs_pillars.flatMap(p => p.items.map(ip => {
+    const s = ipStatusMap[ip.name];
+    return `<div class="ipc" style="${s==='live'?'border-color:var(--gp)':s==='bld'?'border-color:#ffe0c8':''}">
+      <div class="ippl"><span class="pdot ${p.key}"></span>${p.pillar}</div>
+      <div class="ipname">${ip.name}</div>
+      <div class="ipdesc">${ip.desc}</div>
+      <div style="display:flex;gap:6px;margin-top:9px;align-items:center">
+        <span class="ipst ${s}"><span class="sdt"></span>${s==='live'?'Live':'In Progress'}</span>
+        ${s==='live' && ip.link ? `<a href="${ip.link}" target="_blank" style="font-size:11px;font-weight:700;color:var(--gb);text-decoration:none">↗ atticus.ph/resources</a>` : ''}
+      </div>
+    </div>`;
+  })).join('');
+}
+
+// ===================== IP FRAMEWORK =====================
+// Pillar theme configs
+const PILLAR_THEMES = {
+  rc: {
+    grad: 'linear-gradient(135deg, #0d5c36 0%, #1a8a5c 60%, #2dba72 100%)',
+    border: '#1a8a5c',
+    accent: '#1a8a5c',
+    accentLight: '#e6f7f0',
+    accentMid: '#2dba72',
+    ipBg: '#f0fdf7',
+    ipBorder: '#b3e8d0',
+    epBg: '#f8fefb',
+    epBorder: '#d4f5e4',
+    epIndent: '#2dba72',
+    flagIpBg: '#d4f5e4',
+    flagIpColor: '#0d5c36',
+    flagEpBg: '#e6f7f0',
+    flagEpColor: '#1a8a5c',
+    linkColor: '#1a8a5c',
+  },
+  rt: {
+    grad: 'linear-gradient(135deg, #7a3e00 0%, #b86a00 60%, #e8900a 100%)',
+    border: '#b86a00',
+    accent: '#b86a00',
+    accentLight: '#fff4e6',
+    accentMid: '#f5a623',
+    ipBg: '#fffaf0',
+    ipBorder: '#f5d8a0',
+    epBg: '#fffdf7',
+    epBorder: '#fae8c0',
+    epIndent: '#f5a623',
+    flagIpBg: '#fae8c0',
+    flagIpColor: '#7a3e00',
+    flagEpBg: '#fff4e6',
+    flagEpColor: '#b86a00',
+    linkColor: '#b86a00',
+  },
+  tr: {
+    grad: 'linear-gradient(135deg, #1e1680 0%, #3a28a0 60%, #5b50d0 100%)',
+    border: '#3a28a0',
+    accent: '#3a28a0',
+    accentLight: '#eeecff',
+    accentMid: '#6b6bdb',
+    ipBg: '#f4f2ff',
+    ipBorder: '#c8c0f5',
+    epBg: '#f9f8ff',
+    epBorder: '#ddd8f8',
+    epIndent: '#6b6bdb',
+    flagIpBg: '#ddd8f8',
+    flagIpColor: '#1e1680',
+    flagEpBg: '#eeecff',
+    flagEpColor: '#3a28a0',
+    linkColor: '#3a28a0',
+  }
+};
+
+function renderIpFramework() {
+  const el = document.getElementById('ip-framework');
+  if(!el) return;
+
+  el.innerHTML = IPs_pillars.map(p => {
+    const th = PILLAR_THEMES[p.key];
+    const ips   = p.items.filter(i => i.type === 'ip');
+    const eps   = p.items.filter(i => i.type === 'entry');
+    const procs = p.items.filter(i => i.type === 'process' || i.nonIp);
+    const liveCount = p.items.filter(i => !i.nonIp && ipStatusMap[i.name]==='live').length;
+    const bldCount  = p.items.filter(i => !i.nonIp && ipStatusMap[i.name]==='bld').length;
+
+    return `<div class="ipr-pillar" style="border-color:${th.border}">
+      <!-- TIER 1: SERVICE PILLAR HEADER -->
+      <div class="ipr-pillar-hdr" style="background:${th.grad}">
+        <div class="ipr-tier-badge">★ Service Pillar</div>
+        <div class="ipr-pillar-name">${p.pillar}</div>
+        <div class="ipr-pillar-sub">Atticus IP Framework · Tier 1</div>
+        <div class="ipr-pillar-stats">
+          <div class="ipr-stat"><div class="ipr-stat-n">${ips.length+procs.length}</div><div class="ipr-stat-l">IPs</div></div>
+          <div class="ipr-stat"><div class="ipr-stat-n">${eps.length}</div><div class="ipr-stat-l">Entry Pts</div></div>
+          <div class="ipr-stat"><div class="ipr-stat-n">${liveCount}</div><div class="ipr-stat-l">Live</div></div>
+          <div class="ipr-stat"><div class="ipr-stat-n">${bldCount}</div><div class="ipr-stat-l">In Progress</div></div>
+        </div>
+      </div>
+
+      <div class="ipr-pillar-body">
+        ${procs.length ? `${procs.map(ip => `
+          <div class="ipr-process-card">
+            <div class="ipr-process-badge">Core Process</div>
+            <div class="ipr-process-name">${ip.name}</div>
+          </div>`).join('')}` : ''}
+
+        <!-- TIER 2: IPs -->
+        ${ips.length ? `
+        <div class="ipr-ip-group">
+          <div class="ipr-section-lbl ip-lbl" style="color:${th.accent}">
+            <span class="ipr-sl-text">◆ Intellectual Property</span>
+          </div>
+          <div class="ipr-section-lbl" style="display:none"></div>
+          ${ips.map((ip, idx) => renderIpCard(ip, p.key, idx+'ip', th)).join('')}
+        </div>` : ''}
+
+        <!-- TIER 3: Entry Points -->
+        ${eps.length ? `
+        <div class="ipr-ep-group">
+          <div class="ipr-section-lbl ep-lbl" style="color:${th.accentMid}">
+            <span class="ipr-sl-text">◇ Entry Points</span>
+          </div>
+          <div class="ipr-ep-indent" style="border-color:${th.epIndent}">
+            ${eps.map((ip, idx) => renderEpCard(ip, p.key, idx+'ep', th)).join('')}
+          </div>
+        </div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderIpCard(ip, pillarKey, uid, th) {
+  const s = ipStatusMap[ip.name];
+  const hasLink = !!(ip.link && ip.link.length > 0);
+  const isLive = s === 'live';
+  const safeName = ip.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  const cardCls = isLive ? 'live-card' : 'bld-card';
+  const clickH = isLive && hasLink ? `onclick="window.open('${ip.link}','_blank')"` : '';
+  return `<div class="ipr-ip-card ${cardCls}" style="border-color:${isLive?th.ipBorder:'#f5d8a0'};background:${isLive?th.ipBg:'#fffdf7'}" ${clickH}>
+    <span class="ipr-sdot ${s}"></span>
+    <div class="ipr-type-flag" style="background:${th.flagIpBg};color:${th.flagIpColor}">◆ IP Asset</div>
+    <div class="ipr-ip-name" style="color:${th.accent}">${ip.name}</div>
+    <div class="ipr-ip-desc" style="color:var(--t2)">${ip.desc}</div>
+    ${isLive && hasLink ? `<a class="ipr-ip-link" href="${ip.link}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:${th.linkColor}">↗ View on atticus.ph</a>` : ''}
+    ${!hasLink ? `<div class="ipr-url-row" onclick="event.stopPropagation()">
+      <input class="ipr-url-input" type="text" placeholder="${isLive?'Paste URL to link this IP…':'Add URL when live…'}" id="url-${uid}-${pillarKey}">
+      <button class="ipr-url-save" onclick="saveIpLink('${safeName}','${uid}-${pillarKey}')" style="background:${th.accent}">Save</button>
+    </div>` : ''}
+    <div class="ipr-editrow" onclick="event.stopPropagation()">
+      <span class="ipr-editlbl">Status:</span>
+      <div class="ipr-tog">
+        <button class="itbtn ${isLive?'lsel':''}" onclick="setIpStatusHome('${safeName}','live')">● Live</button>
+        <button class="itbtn ${!isLive?'bsel':''}" onclick="setIpStatusHome('${safeName}','bld')">◌ Progress</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderEpCard(ip, pillarKey, uid, th) {
+  const s = ipStatusMap[ip.name];
+  const hasLink = !!(ip.link && ip.link.length > 0);
+  const isLive = s === 'live';
+  const safeName = ip.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  const cardCls = isLive ? 'live-card' : 'bld-card';
+  const clickH = isLive && hasLink ? `onclick="window.open('${ip.link}','_blank')"` : '';
+  return `<div class="ipr-ep-card ${cardCls}" style="border-color:${isLive?th.epBorder:'#e8e8e8'};background:${isLive?th.epBg:'#fafafa'}" ${clickH}>
+    <span class="ipr-sdot ${s}"></span>
+    <div class="ipr-type-flag" style="background:${th.flagEpBg};color:${th.flagEpColor}">◇ Entry Point</div>
+    <div class="ipr-ep-name" style="color:var(--t1)">${ip.name}</div>
+    <div class="ipr-ep-desc" style="color:var(--t2)">${ip.desc}</div>
+    ${isLive && hasLink ? `<a class="ipr-ep-link" href="${ip.link}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:${th.linkColor}">↗ View on atticus.ph</a>` : ''}
+    ${!hasLink ? `<div class="ipr-url-row" onclick="event.stopPropagation()">
+      <input class="ipr-url-input" type="text" placeholder="${isLive?'Paste URL to link…':'Add URL when live…'}" id="url-${uid}-${pillarKey}">
+      <button class="ipr-url-save" onclick="saveIpLink('${safeName}','${uid}-${pillarKey}')" style="background:${th.accentMid}">Save</button>
+    </div>` : ''}
+    <div class="ipr-editrow" onclick="event.stopPropagation()">
+      <span class="ipr-editlbl">Status:</span>
+      <div class="ipr-tog">
+        <button class="itbtn ${isLive?'lsel':''}" onclick="setIpStatusHome('${safeName}','live')">● Live</button>
+        <button class="itbtn ${!isLive?'bsel':''}" onclick="setIpStatusHome('${safeName}','bld')">◌ Progress</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function saveIpLink(name, uid) {
+  const input = document.getElementById('url-'+uid);
+  if(!input||!input.value.trim()) return;
+  const url = input.value.trim();
+  IPs_pillars.forEach(p=>p.items.forEach(ip=>{ if(ip.name===name) ip.link=url; }));
+  renderIpFramework();
+}
+
+function setIpStatusHome(name, status) {
+  ipStatusMap[name] = status;
+  IPs_pillars.forEach(p=>p.items.forEach(ip=>{ if(ip.name===name) ip.status=status; }));
+  renderIpFramework();
+}
+
+// ===================== PROBING QUESTIONS ENGINE =====================
+const PROBING = {
+  overarching: {
+    TIME: [
+      {q:"Walk me through a typical week — where does time go that you feel it shouldn't?", tag:"Open discovery"},
+      {q:"If you could get back 5 hours a week, what would you stop doing?", tag:"Pain surfacing"},
+      {q:"When you lose someone, how long before the seat is productive again?", tag:"Quantify impact"},
+      {q:"What's the biggest bottleneck right now — finding people, getting them ready, or keeping them?", tag:"Narrow focus"},
+    ],
+    COST: [
+      {q:"Have you ever sat down and calculated what it actually costs when someone leaves?", tag:"Open discovery"},
+      {q:"How much of your revenue do you feel is going to rework, re-hiring, or lost capacity?", tag:"Pain surfacing"},
+      {q:"If turnover dropped by half, what would that mean for your margins?", tag:"Quantify impact"},
+      {q:"Are there projects you've had to turn down or delay because of staffing gaps?", tag:"Opportunity cost"},
+    ],
+    EXPERIENCE: [
+      {q:"How would you describe the culture your offshore team works inside of right now?", tag:"Open discovery"},
+      {q:"When your client talks about the offshore team, what words do they use?", tag:"Client perception"},
+      {q:"Do your offshore folks feel like they're part of the business, or more like contractors?", tag:"Belonging signal"},
+      {q:"What does a good day look like for your offshore team vs. a frustrating one?", tag:"Experience gap"},
+    ]
+  },
+  maturity: {
+    Emerging: [
+      {q:"How long have you been working with offshore staff?", tag:"Baseline"},
+      {q:"What made you decide to go offshore in the first place?", tag:"Origin story"},
+      {q:"What's been the biggest surprise — good or bad — since you started?", tag:"Learning edge"},
+      {q:"Do you have a documented process for bringing someone new in, or is it ad hoc?", tag:"Process readiness"},
+    ],
+    Developing: [
+      {q:"You've got some offshore experience now — what's working, and what keeps breaking?", tag:"Diagnostic"},
+      {q:"At what point did things stop feeling chaotic and start feeling structured?", tag:"Maturity marker"},
+      {q:"Have you had to re-do something that a previous offshore hire got wrong?", tag:"Quality signal"},
+      {q:"What does your client actually know about the offshore arrangement?", tag:"Transparency check"},
+    ],
+    Mature: [
+      {q:"You've been running an offshore team for a while — what does 'good' look like for you now?", tag:"Standard setter"},
+      {q:"What's the one thing you'd change about how the team is managed today?", tag:"Improvement signal"},
+      {q:"As you grow, what's your biggest worry about maintaining quality and culture?", tag:"Scale concern"},
+      {q:"Do your best offshore people have a career path? Do they know what it is?", tag:"Retention risk"},
+    ]
+  },
+  painPoints: {
+    "Empty seats stop everything.": [
+      {q:"How long has the seat been open — and what's stalled because of it?", tag:"Urgency"},
+      {q:"What's your current process for filling a role when someone leaves?"},
+      {q:"Have you lost a client or delayed a project because of this gap?", tag:"Impact"},
+    ],
+    "New hires take 90 days to be useful.": [
+      {q:"Walk me through what the first 30 days look like for a new offshore hire.", tag:"Process probe"},
+      {q:"At what point do you consider someone 'fully up to speed'?"},
+      {q:"What's the most common mistake new hires make in the first month?", tag:"Gap signal"},
+    ],
+    "Team keeps changing. Client notices. Client leaves.": [
+      {q:"How often has your client asked 'who's the new person?' in the last 6 months?", tag:"Churn signal"},
+      {q:"Have you ever lost a client renewal because of team instability?", tag:"Revenue risk"},
+      {q:"What's driving the turnover — is it pay, growth, culture, or something else?", tag:"Root cause"},
+    ],
+    "Founder spends hours interviewing the wrong people.": [
+      {q:"How many interviews do you typically do before finding the right fit?", tag:"Volume check"},
+      {q:"What does your pre-screening process look like before someone hits your calendar?"},
+      {q:"What's the last role you hired for, and how long did it take?", tag:"Benchmark"},
+    ],
+    "The best candidates are taken in 48 hours.": [
+      {q:"How fast can you move from 'I want to hire someone' to an offer letter?", tag:"Speed test"},
+      {q:"Have you ever had a great candidate take another offer while you were deciding?", tag:"Loss story"},
+      {q:"What slows down your process the most — decision-making, approvals, or scheduling?"},
+    ],
+    "No person in the seat means no money coming in.": [
+      {q:"What does a vacant seat cost you per week in lost billing or capacity?", tag:"Quantify"},
+      {q:"Do you have a number in mind for how long you're willing to leave a seat empty?"},
+      {q:"Is there a client deliverable at risk right now because of this gap?", tag:"Urgency"},
+    ],
+    "Deal is closed. Team isn't ready. Client is waiting.": [
+      {q:"How much lead time do you typically have between closing a deal and client kickoff?", tag:"Gap size"},
+      {q:"Have you ever had to push back a client start date because of staffing?", tag:"Impact"},
+      {q:"What's your bench strategy — do you have people ready, or hire when needed?"},
+    ],
+    "US and offshore teams miss each other all day.": [
+      {q:"What's the overlap window between your US and offshore teams?", tag:"Time zone gap"},
+      {q:"How do handoffs work — is there a documented process, or is it figured out as you go?"},
+      {q:"Has a delay ever happened because something sat in someone's inbox overnight?", tag:"Lost time"},
+    ],
+    "Someone is checked out. Nobody knows until they quit.": [
+      {q:"How often do you have a real 1-on-1 with your offshore team members?", tag:"Engagement gap"},
+      {q:"Have you ever been surprised by a resignation that seemed to come out of nowhere?"},
+      {q:"How would you know if someone on your offshore team was disengaged?", tag:"Visibility"},
+    ],
+    "Can't grow since current team still needs too much attention.": [
+      {q:"What percentage of your week goes to managing the current team vs. growing the business?", tag:"Capacity drain"},
+      {q:"If the team could run itself for a week, what would you do with that time?"},
+      {q:"What's blocking you from taking on the next client or deal?", tag:"Growth blocker"},
+    ],
+    "Someone quits. It costs money.": [
+      {q:"Have you ever calculated the full cost of a departure — recruiting, ramp, lost output?", tag:"Awareness probe"},
+      {q:"What's a typical replacement cost for someone in this role?", tag:"Quantify"},
+      {q:"How many times have you replaced the same role in the last 12 months?", tag:"Churn frequency"},
+    ],
+    "They don't know why people keep leaving.": [
+      {q:"When someone leaves, do you do an exit interview? What do they say?", tag:"Root cause"},
+      {q:"Is there a pattern — same role, same manager, same timeframe?", tag:"Pattern probe"},
+      {q:"What's your hypothesis on why people are leaving?", tag:"Self-awareness"},
+    ],
+    "Someone who stays 3 years makes way more money than someone who stays 1.": [
+      {q:"What's the average tenure of your offshore team right now?", tag:"Baseline"},
+      {q:"Do your longest-tenured people have defined career paths?", tag:"Retention signal"},
+      {q:"Have you modeled what retention looks like in dollars across a 3-year period?", tag:"ROI probe"},
+    ],
+    "Recruiting and retraining is eating into what they make.": [
+      {q:"What does recruitment cost you per hire — fees, time, lost productivity?", tag:"Cost baseline"},
+      {q:"How often are you re-training someone for a role you've already hired for?", tag:"Rework signal"},
+      {q:"If the replacement cycle stopped, where would that money go?", tag:"Opportunity"},
+    ],
+    "Can't take on more work because the team is a mess.": [
+      {q:"Have you turned down work in the last 6 months because of capacity or team issues?", tag:"Revenue blocked"},
+      {q:"What would need to be true for you to say yes to the next client?", tag:"Unlock question"},
+      {q:"Is the constraint people, process, or both?", tag:"Diagnostic"},
+    ],
+    "Adding more people just means more headaches.": [
+      {q:"What happened the last time you tried to scale the team?", tag:"History probe"},
+      {q:"Where does the management burden show up — in your calendar, or in client complaints?"},
+      {q:"Do you have a management layer on the offshore side, or does everything go through you?", tag:"Structure gap"},
+    ],
+    "No idea what to pay offshore talent.": [
+      {q:"How are you currently figuring out what to offer candidates?", tag:"Process probe"},
+      {q:"Have you lost someone to a competitor who paid more?", tag:"Loss signal"},
+      {q:"Do you benchmark against the market, or go on gut feel?", tag:"Awareness"},
+    ],
+    "Hidden fees make it impossible to budget.": [
+      {q:"What does your current offshore arrangement cost you per person — all in?", tag:"Full cost probe"},
+      {q:"Have you ever been surprised by an invoice or fee you didn't expect?", tag:"Trust signal"},
+      {q:"How far out can you forecast your staffing costs with confidence?", tag:"Predictability"},
+    ],
+    "US salaries are eating what they make on projects.": [
+      {q:"What's your blended margin across your delivery team right now?", tag:"Margin probe"},
+      {q:"Have you modeled what a partial offshore shift would do to your project economics?", tag:"ROI probe"},
+      {q:"What's your current ratio of US to offshore staff?", tag:"Baseline"},
+    ],
+    "Keeping the team secure gets more expensive over time.": [
+      {q:"What's your current IT and security setup for the offshore team?", tag:"Status probe"},
+      {q:"Who's responsible for making sure offshore staff follow your security protocols?", tag:"Ownership"},
+      {q:"Have you ever had a security or compliance incident with an offshore team member?", tag:"Risk history"},
+    ],
+    "Offshore team feels like outsiders.": [
+      {q:"Do your offshore team members know the client's name? The business they support?", tag:"Context check"},
+      {q:"What does your onboarding process look like for making someone feel part of the company?"},
+      {q:"When was the last time the US team and offshore team had a genuine conversation — not just task handoffs?", tag:"Connection gap"},
+    ],
+    "The work comes out different every time.": [
+      {q:"Is there a documented standard for how work should be done and delivered?", tag:"Process check"},
+      {q:"When quality varies, what's usually the cause — the person, the process, or the brief?"},
+      {q:"Has inconsistent quality ever caused a client to raise a concern?", tag:"Client impact"},
+    ],
+    "Only talks to the team when something breaks.": [
+      {q:"How often do you proactively connect with the offshore team outside of problem-solving?", tag:"Frequency"},
+      {q:"Does the client have a relationship with the offshore team, or just with you?", tag:"Depth"},
+      {q:"What would a proactive, ongoing relationship look like to you?", tag:"Vision"},
+    ],
+    "Client has no idea what's happening with their hiring.": [
+      {q:"How are you currently keeping clients updated on the hiring process?", tag:"Status quo"},
+      {q:"Have you ever had a client feel surprised or frustrated by a hiring outcome?", tag:"Trust signal"},
+      {q:"What would 'full transparency' look like to your client?", tag:"Expectation"},
+    ],
+    "Good people leave because they don't see a future there.": [
+      {q:"Have you had a conversation with your offshore team about their career goals?", tag:"Growth signal"},
+      {q:"Do your top performers know what's next for them if they stay?", tag:"Retention risk"},
+      {q:"Have you ever lost someone specifically because there was no growth path?", tag:"Loss story"},
+    ],
+    "Offshore team doesn't really understand the client's business.": [
+      {q:"How much does your offshore team know about the client they support?", tag:"Context depth"},
+      {q:"Has there been a moment where the offshore team missed something because they didn't understand the bigger picture?", tag:"Impact story"},
+      {q:"How do you transfer institutional knowledge to the offshore team?", tag:"Knowledge transfer"},
+    ],
+    "Client wants ideas. Team just waits to be told what to do.": [
+      {q:"When did you last receive an unsolicited idea or suggestion from the offshore team?", tag:"Initiative signal"},
+      {q:"Is the expectation clear — are they supposed to just execute, or contribute?", tag:"Expectation gap"},
+      {q:"What would it mean for your client relationship if the team started driving ideas?", tag:"Vision"},
+    ],
+    "Bad interview experience makes the company look bad.": [
+      {q:"How does a candidate experience your interview process from first contact to offer?", tag:"Experience map"},
+      {q:"Have you ever had a candidate drop out or give negative feedback about the process?", tag:"Signal check"},
+      {q:"Who's responsible for the candidate experience in your hiring process?", tag:"Ownership"},
+    ],
+    "Offshore team struggles to talk directly to clients.": [
+      {q:"Do your offshore team members ever interact directly with the client?", tag:"Status quo"},
+      {q:"What's holding that back — language, confidence, process, or all of the above?", tag:"Root cause"},
+      {q:"What would it mean for your business if the offshore team could be client-facing?", tag:"Vision"},
+    ],
+    "Client can't see how the team is doing until something goes wrong.": [
+      {q:"How does your client currently get visibility into the offshore team's performance?", tag:"Status quo"},
+      {q:"Have you ever had a client escalate something that you felt could have been caught earlier?", tag:"Reactive pattern"},
+      {q:"What would real-time visibility mean for your client relationship?", tag:"Vision"},
+    ],
+  }
+};
+
+const discSelDriver = {val:null};
+const discSelMats = new Set();
+const discSelPains = new Set();
+
+function initDiscSidebar() {
+  const body = document.getElementById('disc-sidebar-body');
+  // Driver tabs
+  const driverHtml = ['TIME','COST','EXPERIENCE'].map(drv => `
+    <div class="disc-driver-tab" data-driver="${drv}" onclick="discSelectDriver('${drv}')">
+      <span class="ddt-pill ${drv}">${drv==='EXPERIENCE'?'EXP':drv}</span>
+      <span class="ddt-name">${drv==='TIME'?'Time — capacity & speed':drv==='COST'?'Cost — margins & money':'Experience — team & culture'}</span>
+      <span class="ddt-cnt">${[...new Set(D.filter(d=>d.driver===drv).map(d=>d.pain))].length} pains</span>
+    </div>`).join('');
+  body.innerHTML = `<div style="border-bottom:2px solid var(--border)">${driverHtml}</div><div id="disc-mat-pains"></div>`;
+}
+
+function discSelectDriver(drv) {
+  discSelDriver.val = drv;
+  discSelMats.clear();
+  discSelPains.clear();
+  document.querySelectorAll('.disc-driver-tab').forEach(el=>el.classList.toggle('active', el.dataset.driver===drv));
+  renderDiscMatPains(drv);
+  renderDiscQuestions();
+}
+
+function renderDiscMatPains(drv) {
+  const mats = ['Emerging','Developing','Mature'];
+  const container = document.getElementById('disc-mat-pains');
+  container.innerHTML = mats.map(mat => {
+    const pains = [...new Set(D.filter(d=>d.driver===drv&&d.mat===mat).map(d=>d.pain))];
+    if(!pains.length) return '';
+    return `<div class="disc-mat-group">
+      <div class="disc-mat-hdr" onclick="discToggleMat('${mat}')">
+        <span class="disc-mat-lbl">Maturity</span>
+        <span class="disc-mat-badge ${mat}">${mat}</span>
+        <span style="font-size:10px;color:var(--tm);margin-left:auto">${pains.length} pain points</span>
+        <span style="font-size:11px;color:var(--tm);margin-left:6px" id="mat-arrow-${mat}">▶</span>
+      </div>
+      <div id="mat-pains-${mat}" style="display:none">
+        ${pains.map(p=>`
+          <div class="disc-pain-item" data-pain="${p.replace(/"/g,'&quot;')}" data-mat="${mat}" onclick="discTogglePain(this)">
+            <div class="dpi-check"></div>
+            <div class="dpi-txt">${p}</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function discToggleMat(mat) {
+  const pane = document.getElementById('mat-pains-'+mat);
+  const arrow = document.getElementById('mat-arrow-'+mat);
+  if(!pane) return;
+  const open = pane.style.display !== 'none';
+  pane.style.display = open ? 'none' : 'block';
+  arrow.textContent = open ? '▶' : '▼';
+  if(!open) { discSelMats.add(mat); } else { discSelMats.delete(mat); }
+  renderDiscQuestions();
+}
+
+function discTogglePain(el) {
+  const pain = el.getAttribute('data-pain');
+  const mat = el.getAttribute('data-mat');
+  if(discSelPains.has(pain)) { discSelPains.delete(pain); el.classList.remove('sel'); }
+  else { discSelPains.add(pain); el.classList.add('sel'); }
+  // Also open mat group if not open
+  const pane = document.getElementById('mat-pains-'+mat);
+  if(pane && pane.style.display==='none') discToggleMat(mat);
+  renderDiscQuestions();
+}
+
+function renderDiscQuestions() {
+  const drv = discSelDriver.val;
+  const badge = document.getElementById('disc-q-badge');
+  const empty = document.getElementById('disc-qempty');
+  const body = document.getElementById('disc-qbody');
+  const content = document.getElementById('disc-qcontent');
+
+  if(!drv) { empty.style.display='block'; body.style.display='none'; badge.style.display='none'; return; }
+
+  const totalSel = discSelPains.size + (discSelMats.size>0?1:0);
+  badge.style.display='block';
+  badge.textContent = (discSelPains.size?discSelPains.size+' pain'+(discSelPains.size>1?'s':'')+' selected':'Driver selected');
+  empty.style.display='none';
+  body.style.display='block';
+
+  let html = '';
+
+  // 1. Overarching driver questions
+  const oqs = PROBING.overarching[drv]||[];
+  html += `<div class="disc-q-group">
+    <div class="disc-q-glbl">Overarching — ${drv==='TIME'?'⏱ Time':drv==='COST'?'💰 Cost':'✨ Experience'} driver</div>
+    <div class="disc-overall-q"><div class="dq-lbl">Opening question</div><div class="dq-txt">${oqs[0]?.q||''}</div></div>
+    ${oqs.slice(1).map((q,i)=>`<div class="disc-q-item"><div class="disc-q-num">${i+2}</div><div><div class="disc-q-text">${q.q}</div>${q.tag?`<span class="disc-q-tag">🏷 ${q.tag}</span>`:''}</div></div>`).join('')}
+  </div>`;
+
+  // 2. Maturity questions for selected/open mats
+  const activeMats = discSelMats.size>0 ? [...discSelMats] : (discSelPains.size>0 ? [...new Set(D.filter(d=>d.driver===drv&&discSelPains.has(d.pain)).map(d=>d.mat))] : []);
+  if(activeMats.length) {
+    activeMats.forEach(mat => {
+      const mqs = PROBING.maturity[mat]||[];
+      html += `<div class="disc-q-group">
+        <div class="disc-q-glbl">Maturity — <span style="color:var(--t1);font-weight:700">${mat}</span></div>
+        ${mqs.map((q,i)=>`<div class="disc-q-item"><div class="disc-q-num">${i+1}</div><div><div class="disc-q-text">${q.q}</div>${q.tag?`<span class="disc-q-tag">🏷 ${q.tag}</span>`:''}</div></div>`).join('')}
+      </div>`;
+    });
+  }
+
+  // 3. Pain-point specific questions
+  if(discSelPains.size) {
+    discSelPains.forEach(pain => {
+      const pqs = PROBING.painPoints[pain]||[];
+      if(!pqs.length) return;
+      html += `<div class="disc-q-group">
+        <div class="disc-q-glbl" style="font-size:9px">${pain}</div>
+        ${pqs.map((q,i)=>`<div class="disc-q-item"><div class="disc-q-num">${i+1}</div><div><div class="disc-q-text">${q.q}</div>${q.tag?`<span class="disc-q-tag">🏷 ${q.tag}</span>`:''}</div></div>`).join('')}
+      </div>`;
+    });
+  }
+
+  content.innerHTML = html;
+}
+
+function copyQuestions() {
+  const txt = document.getElementById('disc-qcontent').innerText;
+  navigator.clipboard.writeText(txt).then(()=>{
+    const btn = document.querySelector('.disc-copyq-btn');
+    btn.textContent='✅ Copied!';
+    setTimeout(()=>btn.textContent='📋 Copy All Questions',2000);
+  }).catch(()=>alert('Select text manually to copy.'));
+}
+
+// ===================== NOTEPAD + MIC RECORDER =====================
+let micRecording = false;
+let micStream = null;
+let micRecognition = null;
+let micTimer = null;
+let micSeconds = 0;
+let notepadQuestions = []; // array of {q, tag} currently shown
+
+function updateNotepad() {
+  const drv = discSelDriver.val;
+  const tagsEl = document.getElementById('nt-tags');
+  const bodyEl = document.getElementById('notepad-questions-notes');
+  const emptyEl = document.getElementById('notepad-empty');
+  const dtpBtn = document.getElementById('dtp-btn');
+  const dtpSub = document.getElementById('dtp-sub');
+
+  // Update pain tags
+  if(discSelPains.size > 0 && drv) {
+    tagsEl.innerHTML = [...discSelPains].map(p => {
+      const match = D.find(d=>d.pain===p&&d.driver===drv)||D.find(d=>d.pain===p);
+      const drvClass = match?match.driver:'TIME';
+      return `<span class="nt-tag ${drvClass}">${p.length>40?p.slice(0,38)+'…':p}</span>`;
+    }).join('');
+  } else {
+    tagsEl.innerHTML = '<span style="color:var(--tm);font-size:12px;font-style:italic">Select pain points above to tag them here</span>';
+  }
+
+  // Build per-question note rows
+  if(!drv || discSelPains.size === 0) {
+    emptyEl.style.display = 'block';
+    bodyEl.style.display = 'none';
+    dtpBtn.disabled = true;
+    dtpSub.textContent = 'Select pain points above to activate the PAVE bridge.';
+    return;
+  }
+
+  // Collect questions for selected pains
+  const questionsForNotes = [];
+  discSelPains.forEach(pain => {
+    const pqs = PROBING.painPoints[pain] || [];
+    pqs.forEach((q, i) => questionsForNotes.push({pain, q: q.q, tag: q.tag, id: `nq-${pain.slice(0,8)}-${i}`.replace(/\s/g,'_')}));
+  });
+  notepadQuestions = questionsForNotes;
+
+  if(questionsForNotes.length === 0) {
+    emptyEl.style.display = 'block';
+    bodyEl.style.display = 'none';
+    return;
+  }
+
+  emptyEl.style.display = 'none';
+  bodyEl.style.display = 'block';
+
+  // Preserve existing note values
+  const existingNotes = {};
+  bodyEl.querySelectorAll('.nq-note-input').forEach(el => { if(el.id && el.value) existingNotes[el.id] = el.value; });
+
+  bodyEl.innerHTML = questionsForNotes.map((item, idx) => `
+    <div class="nq-row">
+      <div class="nq-question">
+        <div class="nq-q-num">Q${idx+1}${item.tag?' · '+item.tag:''}</div>
+        <div class="nq-q-text">${item.q}</div>
+      </div>
+      <div class="nq-note-cell">
+        <textarea class="nq-note-input" id="${item.id}" placeholder="Their answer / your observation…" rows="3"></textarea>
+      </div>
+    </div>`).join('');
+
+  // Restore preserved notes
+  Object.entries(existingNotes).forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if(el) el.value = val;
+  });
+
+  // Activate send to pitch builder
+  dtpBtn.disabled = false;
+  dtpBtn.classList.add('ready');
+  dtpSub.innerHTML = `<strong style="color:var(--gd)">${discSelPains.size} pain point${discSelPains.size>1?'s':''} captured.</strong> Send to PAVE to build the full PAVE pitch now.`;
+  setTimeout(()=>dtpBtn.classList.remove('ready'), 1800);
+}
+
+function clearNotes() {
+  if(!confirm('Clear all notes?')) return;
+  document.getElementById('nff-textarea').value = '';
+  document.querySelectorAll('.nq-note-input').forEach(el => el.value = '');
+}
+
+function copyNotes() {
+  const perQ = [...document.querySelectorAll('.nq-row')].map((row, i) => {
+    const qtext = row.querySelector('.nq-q-text')?.innerText || '';
+    const note = row.querySelector('.nq-note-input')?.value || '';
+    return note ? `Q: ${qtext}\nA: ${note}` : '';
+  }).filter(Boolean).join('\n\n');
+
+  const freeform = document.getElementById('nff-textarea').value;
+  const full = [perQ, freeform ? '— General Notes —\n'+freeform : ''].filter(Boolean).join('\n\n---\n\n');
+
+  if(!full.trim()) { alert('No notes to copy yet.'); return; }
+  navigator.clipboard.writeText(full).then(()=>{
+    const btns = document.querySelectorAll('.nff-btn');
+    btns.forEach(b=>{ if(b.textContent.includes('Copy')) { b.textContent='✅ Copied!'; setTimeout(()=>b.textContent='📋 Copy notes',2000); }});
+  }).catch(()=>alert('Select notes manually to copy.'));
+}
+
+// ---- MIC RECORDER (Speech Recognition API) ----
+function toggleMic() {
+  if(micRecording) stopMic();
+  else startMic();
+}
+
+function startMic() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SpeechRecognition) {
+    alert('Voice recording is not supported in this browser. Try Chrome or Edge.');
+    return;
+  }
+
+  micRecognition = new SpeechRecognition();
+  micRecognition.continuous = true;
+  micRecognition.interimResults = true;
+  micRecognition.lang = 'en-US';
+
+  let interim = '';
+
+  micRecognition.onresult = (e) => {
+    interim = '';
+    let final = '';
+    for(let i = e.resultIndex; i < e.results.length; i++) {
+      if(e.results[i].isFinal) final += e.results[i][0].transcript + ' ';
+      else interim += e.results[i][0].transcript;
+    }
+    if(final) {
+      const ta = document.getElementById('nff-textarea');
+      ta.value += (ta.value && !ta.value.endsWith('\n') ? '\n' : '') + final.trim();
+    }
+  };
+
+  micRecognition.onerror = (e) => {
+    if(e.error !== 'no-speech') { stopMic(); alert('Mic error: ' + e.error); }
+  };
+
+  micRecognition.onend = () => { if(micRecording) micRecognition.start(); };
+
+  micRecognition.start();
+  micRecording = true;
+
+  // UI
+  const btn = document.getElementById('mic-btn');
+  const status = document.getElementById('mic-status');
+  const lbl = document.getElementById('mic-lbl');
+  btn.classList.add('recording');
+  lbl.textContent = 'Stop';
+  status.style.display = 'flex';
+  document.getElementById('mic-note').textContent = 'Transcribing to General Notes…';
+
+  micSeconds = 0;
+  micTimer = setInterval(() => {
+    micSeconds++;
+    const m = Math.floor(micSeconds/60);
+    const s = micSeconds%60;
+    document.getElementById('mic-timer').textContent = `${m}:${s.toString().padStart(2,'0')}`;
+  }, 1000);
+}
+
+function stopMic() {
+  micRecording = false;
+  if(micRecognition) { micRecognition.onend = null; micRecognition.stop(); micRecognition = null; }
+  clearInterval(micTimer);
+
+  const btn = document.getElementById('mic-btn');
+  const status = document.getElementById('mic-status');
+  const lbl = document.getElementById('mic-lbl');
+  btn.classList.remove('recording');
+  lbl.textContent = 'Record';
+  status.style.display = 'none';
+  document.getElementById('mic-note').textContent = 'Voice → text, appended to notes';
+}
+
+// ---- SEND TO PITCH BUILDER ----
+function sendToPitchBuilder() {
+  if(discSelPains.size === 0) return;
+
+  // Pre-select all current pains in pitch builder
+  pbSelected.clear();
+  document.querySelectorAll('.pb-pain-item').forEach(el => el.classList.remove('sel'));
+
+  discSelPains.forEach(pain => {
+    pbSelected.add(pain);
+    document.querySelectorAll('.pb-pain-item').forEach(el => {
+      if(el.querySelector('.pb-pain-txt')?.textContent.trim() === pain) el.classList.add('sel');
+    });
+  });
+
+  pbRender();
+  switchView('pitch');
+
+  // Flash confirmation
+  setTimeout(() => {
+    const badge = document.getElementById('pb-sel-badge');
+    if(badge) { badge.style.transition='all .3s'; badge.style.transform='scale(1.1)'; setTimeout(()=>badge.style.transform='',300); }
+  }, 150);
+}
+
+// Patch renderDiscQuestions to also update notepad
+const _origRenderDiscQuestions = renderDiscQuestions;
+function renderDiscQuestionsAndNotes() {
+  _origRenderDiscQuestions();
+  updateNotepad();
+}
+// Override the toggle functions to also update notepad
+const _origDiscToggleMat = discToggleMat;
+const _origDiscTogglePain = discTogglePain;
+// We re-wire by patching discTogglePain / discToggleMat calls at the end
+
+// ===================== PITCH BUILDER =====================
+const pbSelected = new Set();
+let pbScriptMode = 'open';
+
+function pbInit() {
+  const groups = [
+    {driver:'TIME', label:'⏱ Time', pains:[...new Set(D.filter(d=>d.driver==='TIME').map(d=>d.pain))]},
+    {driver:'COST', label:'💰 Cost', pains:[...new Set(D.filter(d=>d.driver==='COST').map(d=>d.pain))]},
+    {driver:'EXPERIENCE', label:'✨ Experience', pains:[...new Set(D.filter(d=>d.driver==='EXPERIENCE').map(d=>d.pain))]}
+  ];
+  const container = document.getElementById('pb-pain-lists');
+  container.innerHTML = groups.map(g => `
+    <div class="pb-section">
+      <div class="pb-section-hdr">
+        <span class="pb-section-pill ${g.driver}">${g.label}</span>
+        <span class="pb-section-name">${g.driver==='EXPERIENCE'?'Experience':g.driver.charAt(0)+g.driver.slice(1).toLowerCase()}</span>
+        <span class="pb-section-count">${g.pains.length} scenarios</span>
+      </div>
+      <div class="pb-pain-list">
+        ${g.pains.map(p => `<div class="pb-pain-item" data-pain="${p.replace(/"/g,'&quot;')}" data-driver="${g.driver}" onclick="pbToggle(this)">
+            <div class="pb-check"></div>
+            <div class="pb-pain-txt">${p}</div>
+          </div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+function pbToggle(el) {
+  const pain = el.getAttribute('data-pain');
+  if(pbSelected.has(pain)){pbSelected.delete(pain);el.classList.remove('sel');}
+  else{pbSelected.add(pain);el.classList.add('sel');}
+  pbRender();
+}
+
+function pbClearAll() {
+  pbSelected.clear();
+  document.querySelectorAll('.pb-pain-item').forEach(el=>el.classList.remove('sel'));
+  pbRender();
+}
+
+function pbRender() {
+  const frame = document.getElementById('pave-frame');
+  const empty = document.getElementById('pave-empty');
+  const badge = document.getElementById('pb-sel-badge');
+  if(pbSelected.size===0){frame.classList.remove('show');empty.style.display='block';badge.style.display='none';return;}
+  empty.style.display='none';
+  frame.classList.add('show');
+  badge.style.display='block';
+  badge.textContent=pbSelected.size+' pain point'+(pbSelected.size>1?'s':'')+' selected';
+
+  const matches=D.filter(d=>pbSelected.has(d.pain));
+  const firstMatch=matches[0];
+
+  document.getElementById('pv-gtm').textContent=firstMatch?firstMatch.gtm.replace(/ERP (consulting )?firm(?: whose| where| that| whose)?/,'').replace(/^[,\s]+/,'').trim():'—';
+
+  document.getElementById('pv-pains').innerHTML=matches.map(m=>`<div class="pain-chip ${m.driver}">${m.pain}</div>`).join('');
+
+  const uniqueDrivers=[...new Set(matches.map(m=>m.driver))];
+  document.getElementById('pv-driver').innerHTML=uniqueDrivers.map(drv=>`<span class="pb-section-pill ${drv}" style="font-size:9px;padding:3px 8px">${drv==='EXPERIENCE'?'EXP':drv}</span>`).join('');
+
+  const vps=[...new Set(matches.map(m=>m.vp))];
+  document.getElementById('pv-vp').textContent=vps.length===1?vps[0]:vps.map((v,i)=>`${i+1}. ${v}`).join(' ');
+
+  const recCounts={Readiness:0,Launch:0,Scale:0};
+  matches.forEach(m=>{if(m.rec.includes('Readiness'))recCounts.Readiness++;else if(m.rec.includes('Launch'))recCounts.Launch++;else recCounts.Scale++;});
+  const topRec=Object.entries(recCounts).sort((a,b)=>b[1]-a[1])[0][0];
+
+  document.getElementById('pv-opts').innerHTML=[
+    {name:'Readiness (free)',key:'Readiness',desc:'Assessments, tools & templates to see the gaps and start fixing them. Free to get started.'},
+    {name:'Launch ($600/person)',key:'Launch',desc:'We handle the hiring, onboarding and structure. One price, no surprises.'},
+    {name:'Scale ($995/mo)',key:'Scale',desc:'Full team management, leadership development, and 90% retention guarantee. Money-back.'}
+  ].map((opt,i)=>`<div class="pave-opt ${opt.key===topRec?'reco':''}">
+    ${opt.key===topRec?'<span class="pave-reco-badge">Best Fit</span>':''}
+    <div class="pave-opt-num">Option ${i+1}</div>
+    <div class="pave-opt-name">${opt.name}</div>
+    <div class="pave-opt-desc">${opt.desc}</div></div>`).join('');
+
+  const b1s=[...new Set(matches.map(m=>m.b1))];
+  const b2s=[...new Set(matches.map(m=>m.b2))];
+  document.getElementById('pv-impacts').innerHTML=[
+    {lbl:'Business Impact 1',txt:b1s.slice(0,2).join(' + ')},
+    {lbl:'Business Impact 2',txt:b2s.slice(0,2).join(' + ')}
+  ].map(b=>`<div class="pave-impact"><div class="pave-impact-lbl">${b.lbl}</div><div class="pave-impact-txt">${b.txt}</div></div>`).join('');
+
+  pbRenderScript(matches,topRec);
+}
+
+function pbRenderScript(matches,topRec) {
+  const pains=matches.map(m=>m.pain);
+  const drivers=[...new Set(matches.map(m=>m.driver))];
+  const vps=[...new Set(matches.map(m=>m.vp))];
+  const b1s=[...new Set(matches.map(m=>m.b1))];
+  const b2s=[...new Set(matches.map(m=>m.b2))];
+  const ips=[...new Set(matches.map(m=>m.ip))];
+  const recTier=topRec==='Readiness'?'Readiness (free)':topRec==='Launch'?'Launch ($600/person)':'Scale ($995/mo)';
+  const dLabel=drivers.length===1?(drivers[0]==='TIME'?'time and capacity':drivers[0]==='COST'?'cost and profitability':'team experience and culture'):'a few different areas';
+
+  const scripts={
+    open:`<span class="hook">"Before I walk you through anything — tell me if any of these sounds familiar."</span>
+
+${pains.map(p=>`➤ <span class="pain-ref">"${p}"</span>`).join('\n\n')}
+
+[Pause. Let them react. Don't fill the silence.]
+
+<span class="hook">"Which one hits closest to home right now?"</span>
+
+[Let them choose. Whatever they say, you're ready.]`,
+
+    pitch:`<span class="hook">[After they confirm the pain]</span>
+
+"Okay. So the core issue is around <span class="pain-ref">${dLabel}</span>. That's exactly what Atticus is built to solve."
+
+${pains.length>1?`"And I'm actually hearing a few things at once — <span class="pain-ref">${pains.slice(0,2).join('</span> and <span class="pain-ref">')}</span>. These aren't separate problems. They come from the same root."`:``}
+
+<span class="hook">[The Atticus approach]</span>
+
+"Here's what we do: ${vps.map(v=>`<span class="pain-ref">${v}</span>`).join(' And — ')}."
+
+"We give you three ways to start depending on where you are:
+
+▸ <span class="pain-ref">Option 1 — Readiness (free)</span>: Tools, templates, and assessments to see exactly where the gaps are. No commitment.
+
+▸ <span class="pain-ref">Option 2 — Launch at $600/person</span>: We run the process — hiring, onboarding, structure — end to end.
+
+▸ <span class="pain-ref">Option 3 — Scale at $995/month</span>: Full team management, leadership development, and a 90% retention guarantee. Money-back."
+
+"For what you're describing, the right starting point is <span class="cta">${recTier}</span>."
+
+"Here's why: <span class="pain-ref">${b1s[0]}</span>. And once that's solid, <span class="pain-ref">${b2s[0]||b1s[1]||'the business stops bleeding the same problem twice'}</span>."
+
+${ips.length?`"The specific tools we'd use with you are the <span class="pain-ref">${ips.join('</span> and the <span class="pain-ref">')}</span>. These aren't generic. They're built for ERP firms."`:``}`,
+
+    close:`<span class="hook">[Checking for fit]</span>
+
+"Based on everything you've told me today — the <span class="pain-ref">${pains[0]}</span>${pains.length>1?' — and the other things we talked about':''} — I don't want this to stay as a good conversation."
+
+"My recommendation is <span class="cta">${recTier}</span>."
+
+"The reason is simple: <span class="pain-ref">${b1s[0]}</span>. And once that's in place — <span class="pain-ref">${b2s[0]||'you stop repeating the same loss'}</span>."
+
+<span class="hook">"Here's what I'd suggest as a next step:"</span>
+
+"Let's [run the Profitability Calculator together / do the Offshore Readiness Assessment / book a 30-min working session] so you leave with a number and a clear action — not just a feeling."
+
+<span class="hook">"Does that make sense as a starting point?"</span>
+
+[Wait. If yes, book it on the spot. If hesitant, ask: "What would need to be true for you to feel confident moving forward?"]`
+  };
+  document.getElementById('pave-script').innerHTML=scripts[pbScriptMode];
+}
+
+function pbScriptTab(mode,btn) {
+  pbScriptMode=mode;
+  document.querySelectorAll('.stmini').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const matches=D.filter(d=>pbSelected.has(d.pain));
+  if(!matches.length)return;
+  const recCounts={Readiness:0,Launch:0,Scale:0};
+  matches.forEach(m=>{if(m.rec.includes('Readiness'))recCounts.Readiness++;else if(m.rec.includes('Launch'))recCounts.Launch++;else recCounts.Scale++;});
+  const topRec=Object.entries(recCounts).sort((a,b)=>b[1]-a[1])[0][0];
+  pbRenderScript(matches,topRec);
+}
+
+function pbCopyScript() {
+  const txt=document.getElementById('pave-script').innerText;
+  navigator.clipboard.writeText(txt).then(()=>{
+    const btn=document.querySelector('.script-copy-btn');
+    btn.textContent='✅ Copied!';
+    setTimeout(()=>{btn.innerHTML='📋 Copy Script';},2000);
+  }).catch(()=>alert('Select the text manually to copy.'));
+}
+
+pbInit();
+renderIpFramework();
+initDiscSidebar();
+initBoard();
+
+// Patch disc functions to update notepad on every selection change
+const _origDiscSelectDriver = discSelectDriver;
+discSelectDriver = function(drv) {
+  _origDiscSelectDriver(drv);
+  updateNotepad();
+};
+
+const _origDiscTogglePainFn = discTogglePain;
+discTogglePain = function(el) {
+  _origDiscTogglePainFn(el);
+  updateNotepad();
+};
+
+const _origDiscToggleMatFn = discToggleMat;
+discToggleMat = function(mat) {
+  _origDiscToggleMatFn(mat);
+  updateNotepad();
+};
+</script>
+</body>
+</html>
